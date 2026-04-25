@@ -8,9 +8,11 @@ let lineChart = null;
 
 export function renderActivityCard() {
   return `
-    <div class="card">
+    <div class="card" style="flex:1; min-width:0;">
       <div class="card-title">Activity</div>
-      <canvas id="lineChart"></canvas>
+      <div style="height:190px;">
+        <canvas id="lineChart"></canvas>
+      </div>
     </div>
   `;
 }
@@ -42,6 +44,7 @@ export function renderLineChart() {
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       scales: {
         x: {

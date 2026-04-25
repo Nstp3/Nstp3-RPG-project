@@ -10,7 +10,7 @@ let radarChart = null;
 
 export function renderRadarCard() {
   return `
-    <div class="card" style="width:250px; height:250px; padding:8px;">
+    <div class="card" style="width:230px; height:245px; padding:8px; flex-shrink:0;">
       <div class="card-title">Radar</div>
       <canvas id="radarChart"></canvas>
     </div>

@@ -24,11 +24,13 @@ export function render() {
       ${renderDirections()}
     </div>
 
-    <div class="col col--mid">
-  ${renderRadarCard()}
+  <div class="col col--mid">
   ${renderTasks()}
   ${renderSkillsList()}
-  ${renderActivityCard()}
+  <div style="display:flex; gap:10px; align-items:flex-start;">
+    ${renderRadarCard()}
+    ${renderActivityCard()}
+  </div>
 </div>
   `;
 
