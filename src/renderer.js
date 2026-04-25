@@ -8,7 +8,7 @@
 import { renderProfile, bindProfile }           from './components/Profile.js';
 import { renderStats, bindStats }               from './components/Stats.js';
 import { renderTasks, bindTasks }               from './components/Tasks.js';
-import { renderSkills, bindSkills, renderRadarChart } from './components/Skills.js';
+import { renderSkillsList, renderRadarCard, bindSkills, renderRadarChart  } from './components/Skills.js';
 import { renderActivityCard, renderLineChart }  from './components/ActivityChart.js';
 import { renderDirections, bindDirections }     from './components/Directions.js';
 
@@ -25,10 +25,11 @@ export function render() {
     </div>
 
     <div class="col col--mid">
-      ${renderTasks()}
-      ${renderSkills()}
-      ${renderActivityCard()}
-    </div>
+  ${renderRadarCard()}
+  ${renderTasks()}
+  ${renderSkillsList()}
+  ${renderActivityCard()}
+</div>
   `;
 
   // После вставки HTML — привязываем события

@@ -8,7 +8,16 @@ import { update } from '../renderer.js';
 
 let radarChart = null;
 
-export function renderSkills() {
+export function renderRadarCard() {
+  return `
+    <div class="card" style="width:250px; height:250px; padding:8px;">
+      <div class="card-title">Radar</div>
+      <canvas id="radarChart"></canvas>
+    </div>
+  `;
+}
+
+export function renderSkillsList() {
   const maxVal = Math.max(...Object.values(state.skills), 1);
 
   return `
@@ -25,11 +34,6 @@ export function renderSkills() {
           </div>
         `).join('')}
       </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Radar</div>
-      <canvas id="radarChart"></canvas>
     </div>
   `;
 }
@@ -72,6 +76,7 @@ export function renderRadarChart() {
     },
     options: {
       responsive: true,
+      aspectRatio: 1.3,
       plugins: { legend: { display: false } },
       scales: {
         r: {
