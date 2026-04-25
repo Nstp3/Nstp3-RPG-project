@@ -16,18 +16,18 @@ export const defaultState = {
     xp: 0,
   },
   stats: {
-    HP: 100,
-    Mood: 100,
-    Focus: 100,
-    Motivation: 100,
+    Здоровье: 500,
+    Настроение: 500,
+    Выносливость: 500,
+    Мотивация: 500,
   },
   skills: {
-    Physical: 50,
-    Psyche: 40,
-    Intel: 30,
-    Craft: 35,
-    Spiritual: 45,
-    Core: 55,
+    Физические: 50,
+    Психика: 40,
+    Интеллект: 30,
+    Покупки: 45,
+    'Домашние дела': 35,
+    'Другие дела': 55,
   },
   tasks: [],
   logs: [],       // [{ date: 'Mon Apr 25 2026', value: 3 }, ...]
@@ -36,7 +36,7 @@ export const defaultState = {
     { name: 'Evening Wind-down', progress: 0 },
   ],
   dailyXP: 0,
-  dailyXPLimit: 100,
+  dailyXPLimit: 1000,
   lastDate: new Date().toDateString(),
 };
 
@@ -72,6 +72,13 @@ const today = new Date().toDateString();
 if (state.lastDate !== today) {
   state.dailyXP = 0;
   state.lastDate = today;
+  // Stats сбрасываются каждый день до базового значения
+  state.stats = {
+    Здоровье: 500,
+    Настроение: 500,
+    Выносливость: 500,
+    Мотивация: 500,
+  };
 }
 
 // ============================================================

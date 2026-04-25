@@ -8,10 +8,10 @@ import { update } from '../renderer.js';
 
 // Каждый стат имеет свой цветовой вариант
 const STAT_VARIANTS = {
-  HP:         'hp',
-  Mood:       'mood',
-  Focus:      'focus',
-  Motivation: 'mot',
+  Здоровье:    'hp',
+  Настроение:  'mood',
+  Выносливость:'focus',
+  Мотивация:   'mot',
 };
 
 export function renderStats() {
@@ -24,7 +24,7 @@ export function renderStats() {
             <span class="stat-name">${key}</span>
             <span class="mono stat-val">${val}</span>
           </div>
-          ${ProgressBar(val, 100, STAT_VARIANTS[key] || 'green')}
+          ${ProgressBar(val, 1000, STAT_VARIANTS[key] || 'green')}
         </div>
       `).join('')}
     </div>
@@ -37,7 +37,7 @@ export function bindStats() {
       const key = el.dataset.stat;
       const val = prompt(`Изменить ${key} (0–100):`, state.stats[key]);
       if (val === null) return;
-      const n = Math.min(100, Math.max(0, +val));
+      const n = Math.min(1000, Math.max(0, +val));
       if (!isNaN(n)) {
         state.stats[key] = n;
         saveState();

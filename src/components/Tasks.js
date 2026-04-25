@@ -16,9 +16,13 @@ export function renderTasks() {
       <div class="task-input-row">
         <input id="taskInput" placeholder="Новая задача..." class="task-input" />
         <select id="taskCat" class="task-select">
-          <option value="Morning">Утро</option>
-          <option value="Evening">Вечер</option>
-        </select>
+  <option value="Физические">Физические</option>
+  <option value="Психика">Психика</option>
+  <option value="Интеллект">Интеллект</option>
+  <option value="Домашние дела">Домашние дела</option>
+  <option value="Покупки">Покупки</option>
+  <option value="Другие дела">Другие дела</option>
+</select>
         <button class="btn-add" id="taskAddBtn">+</button>
       </div>
 
@@ -33,12 +37,20 @@ export function renderTasks() {
 }
 
 function renderTask(task) {
-  const catClass = task.category === 'Morning' ? 'cat-morning' : 'cat-evening';
+  const catColors = {
+    'Физические':    'cat-physical',
+    'Психика':       'cat-psyche',
+    'Интеллект':     'cat-intel',
+    'Домашние дела': 'cat-home',
+    'Покупки':       'cat-shop',
+    'Другие дела':   'cat-other',
+  };
+  const catClass = catColors[task.category] || 'cat-other';
   return `
     <div class="task-item" data-id="${task.id}">
       <input type="checkbox" class="task-check" ${task.done ? 'checked' : ''} data-id="${task.id}" />
       <span class="task-text ${task.done ? 'task-text--done' : ''}">${task.text}</span>
-      <span class="task-cat ${catClass}">${task.category === 'Morning' ? 'Утро' : 'Вечер'}</span>
+      <span class="task-cat ${catClass}">${task.category}</span>
       <button class="btn-del" data-id="${task.id}" title="Delete">✕</button>
     </div>
   `;
