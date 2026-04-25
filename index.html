@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Life RPG Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/styles/base.css" />
+  <link rel="stylesheet" href="src/styles/components.css" />
+  <link rel="stylesheet" href="src/styles/layout.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="logo">⚔️ LIFE RPG</div>
+    <div class="topbar-center" id="topbarCenter"></div>
+    <div class="topbar-right">
+      <button class="btn-ghost" id="exportBtn">Экспорт</button>
+      <button class="btn-ghost" id="importBtn">Импорт</button>
+    </div>
+  </header>
+
+  <main id="app" class="container"></main>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

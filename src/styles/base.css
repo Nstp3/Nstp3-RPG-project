@@ -1,0 +1,102 @@
+/* ============================================================
+   base.css — переменные, сброс, типографика
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+/* ── CSS-переменные ─────────────────────────────────────── */
+:root {
+  --green:       #00e676;
+  --green2:      #00c853;
+  --green-dim:   rgba(0, 230, 118, 0.12);
+  --green-glow:  rgba(0, 230, 118, 0.25);
+
+  --amber:       #ffa726;
+  --red:         #ff4d67;
+  --blue:        #42a5f5;
+  --purple:      #ab47bc;
+
+  --bg:          #0d1117;
+  --bg2:         #161b22;
+  --bg3:         #1c2330;
+  --bg4:         #21262d;
+
+  --border:      rgba(255, 255, 255, 0.07);
+  --border2:     rgba(0, 230, 118, 0.25);
+
+  --text:        #e6edf3;
+  --text2:       #7d8590;
+  --text3:       #484f58;
+
+  --radius:      10px;
+  --radius-sm:   6px;
+
+  --font-main:   'Rajdhani', sans-serif;
+  --font-mono:   'Space Mono', monospace;
+}
+
+/* ── Сброс ──────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-main);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Типографика ────────────────────────────────────────── */
+h1, h2, h3 {
+  font-family: var(--font-main);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.label-muted {
+  color: var(--text2);
+}
+
+.empty-hint {
+  color: var(--text3);
+  font-size: 12px;
+  padding: 8px 0;
+}
+
+/* ── Toast ──────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: 80px;
+  right: 24px;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  z-index: 999;
+}
+
+.toast.hidden {
+  opacity: 0;
+}
+
+.toast--xp      { background: var(--green-dim); border: 1px solid var(--border2); color: var(--green); }
+.toast--success { background: rgba(0,200,83,0.15); border: 1px solid rgba(0,200,83,0.3); color: #00c853; }
+.toast--warn    { background: rgba(255,167,38,0.15); border: 1px solid rgba(255,167,38,0.3); color: var(--amber); }
+.toast--info    { background: rgba(66,165,245,0.15); border: 1px solid rgba(66,165,245,0.3); color: var(--blue); }

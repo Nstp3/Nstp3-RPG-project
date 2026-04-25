@@ -1,0 +1,268 @@
+/* ============================================================
+   components.css — компоненты: card, progress, tasks, skills
+   ============================================================ */
+
+/* ── Card ───────────────────────────────────────────────── */
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.25s;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--green2), transparent);
+  opacity: 0.35;
+}
+
+.card:hover {
+  box-shadow: 0 0 20px rgba(0, 230, 118, 0.08);
+}
+
+.card-title {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--text2);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  font-family: var(--font-mono);
+}
+
+/* ── Profile ────────────────────────────────────────────── */
+.card--profile {
+  text-align: center;
+}
+
+.avatar {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: var(--bg4);
+  border: 2px solid var(--green2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin: 0 auto 8px;
+}
+
+.level-badge {
+  display: inline-block;
+  background: var(--green-dim);
+  border: 1px solid var(--border2);
+  border-radius: 20px;
+  padding: 2px 12px;
+  font-size: 12px;
+  color: var(--green);
+  font-family: var(--font-mono);
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-bottom: 4px;
+}
+.level-badge:hover { background: rgba(0,230,118,0.2); }
+
+.profile-name {
+  color: var(--text2);
+  font-size: 13px;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+.profile-name:hover { color: var(--text); }
+
+.xp-section { margin-top: 6px; }
+.xp-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text2);
+  margin-bottom: 4px;
+}
+
+/* ── Progress Bar ───────────────────────────────────────── */
+.progress {
+  width: 100%;
+  height: 5px;
+  background: var(--bg4);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.45s ease;
+}
+
+.progress-bar--green  { background: linear-gradient(90deg, var(--green2), var(--green)); }
+.progress-bar--amber  { background: linear-gradient(90deg, #e65100, var(--amber)); }
+.progress-bar--hp     { background: linear-gradient(90deg, #b71c1c, #ef5350); }
+.progress-bar--mood   { background: linear-gradient(90deg, #6a1b9a, var(--purple)); }
+.progress-bar--focus  { background: linear-gradient(90deg, #0277bd, var(--blue)); }
+.progress-bar--mot    { background: linear-gradient(90deg, #e65100, var(--amber)); }
+
+/* ── Stats ──────────────────────────────────────────────── */
+.stat-row {
+  margin-bottom: 9px;
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 4px;
+  transition: background 0.2s;
+}
+.stat-row:hover { background: var(--bg3); }
+
+.stat-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.stat-name { font-size: 12px; color: var(--text2); letter-spacing: 1px; }
+.stat-val  { font-size: 11px; color: var(--text); }
+
+/* ── Tasks ──────────────────────────────────────────────── */
+.task-input-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.task-input {
+  flex: 1;
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: var(--font-main);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.task-input:focus { border-color: var(--border2); }
+.task-input::placeholder { color: var(--text3); }
+
+.task-select {
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px 8px;
+  color: var(--text2);
+  font-size: 11px;
+  font-family: var(--font-mono);
+  outline: none;
+  cursor: pointer;
+}
+
+.btn-add {
+  background: var(--green-dim);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  color: var(--green);
+  font-size: 18px;
+  width: 32px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-add:hover { background: rgba(0,230,118,0.22); }
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+}
+.task-item:last-child { border-bottom: none; }
+
+.task-item input[type="checkbox"] {
+  accent-color: var(--green);
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.task-text {
+  flex: 1;
+  font-size: 13px;
+  color: var(--text);
+  cursor: pointer;
+  user-select: none;
+}
+.task-text--done {
+  text-decoration: line-through;
+  color: var(--text3);
+}
+
+.task-cat {
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+}
+.cat-morning { background: rgba(255,167,38,0.12); color: var(--amber); }
+.cat-evening { background: rgba(66,165,245,0.12); color: var(--blue); }
+
+.btn-del {
+  background: none;
+  border: none;
+  color: var(--text3);
+  cursor: pointer;
+  font-size: 11px;
+  padding: 2px 4px;
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+.btn-del:hover { color: var(--red); }
+
+/* ── Skills ─────────────────────────────────────────────── */
+.skill-list { display: flex; flex-direction: column; gap: 6px; }
+
+.skill-row {
+  display: grid;
+  grid-template-columns: 70px 1fr 38px;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  padding: 4px 5px;
+  transition: background 0.2s;
+}
+.skill-row:hover { background: var(--bg3); }
+
+.skill-name { font-size: 11px; color: var(--text2); letter-spacing: 1px; }
+.skill-val  { font-size: 11px; color: var(--green); text-align: right; }
+.skill-bar-wrap .progress { height: 4px; }
+
+/* ── Directions ─────────────────────────────────────────── */
+.dir-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin-bottom: 7px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.dir-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,230,118,0.08);
+}
+
+.dir-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.dir-name { font-size: 12px; color: var(--text); letter-spacing: 0.5px; }
+.dir-pct  { color: var(--green); cursor: pointer; }
+.dir-pct:hover { text-decoration: underline; }
