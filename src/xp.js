@@ -1,41 +1,52 @@
-// ============================================================
-// xp.js — система XP и уровней
-// ============================================================
-
 import { state, saveState } from './state.js';
 import { showToast } from './ui/toast.js';
 
-const XP_PER_LEVEL = 100;
-const XP_PER_TASK  = 10;
+export const XP_PER_TASK   = 20;
+export const XP_PER_HABIT  = 10;
+const MAX_LEVEL = 999;
+const BASE_XP   = 100;
+const MULTIPLIER = 1.15;
 
-// Добавить XP. Возвращает { added, levelUp }
-// Положительный XP блокируется при достижении дневного лимита.
-// Отрицательный XP (снятие при uncheck) всегда проходит.
+// XP необходимое для перехода с уровня n на n+1
+export function xpForLevel(level) {
+  return Math.round(BASE_XP * Math.pow(MULTIPLIER, level - 1));
+}
+
 export function addXP(amount) {
   const result = { added: false, levelUp: false };
 
   if (amount > 0 && state.dailyXP >= state.dailyXPLimit) {
-    showToast('Daily XP limit reached!', 'warn');
+    showToast('Дневной лимит XP достигнут!', 'warn');
     return result;
   }
 
-  state.profile.xp  += amount;
-  state.dailyXP     += Math.max(0, amount);
+  state.profile.xp += amount;
+  state.dailyXP    += Math.max(0, amount);
   result.added = true;
 
-  // Уровень вверх
-  if (state.profile.xp >= XP_PER_LEVEL) {
-    state.profile.level++;
-    state.profile.xp -= XP_PER_LEVEL;
-    result.levelUp = true;
-    showToast(`Level Up! Now level ${state.profile.level} 🎉`, 'success');
+  // Level UP
+  while (state.profile.level < MAX_LEVEL) {
+    const needed = xpForLevel(state.profile.level);
+    if (state.profile.xp >= needed) {
+      state.profile.xp -= needed;
+      state.profile.level++;
+      result.levelUp = true;
+      showToast(`Уровень ${state.profile.level}! 🎉`, 'success');
+    } else {
+      break;
+    }
   }
 
-  // XP не может быть отрицательным
+  // Level DOWN — если XP ушёл в минус после снятия задачи/привычки
+  while (state.profile.level > 1 && state.profile.xp < 0) {
+    state.profile.level--;
+    const prev = xpForLevel(state.profile.level);
+    state.profile.xp += prev;
+    showToast(`Уровень ${state.profile.level}`, 'warn');
+  }
+
   if (state.profile.xp < 0) state.profile.xp = 0;
 
   saveState();
   return result;
 }
-
-export { XP_PER_TASK };

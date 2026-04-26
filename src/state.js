@@ -31,6 +31,7 @@ export const defaultState = {
   },
   tasks: [],
   logs: [],       // [{ date: 'Mon Apr 25 2026', value: 3 }, ...]
+  habits: [],
   directions: [
     { name: 'Morning Routine', progress: 0 },
     { name: 'Evening Wind-down', progress: 0 },
@@ -54,6 +55,7 @@ function mergeState(saved) {
     tasks:      Array.isArray(saved.tasks)      ? saved.tasks      : [],
     logs:       Array.isArray(saved.logs)       ? saved.logs       : [],
     directions: Array.isArray(saved.directions) ? saved.directions : defaultState.directions,
+    habits:     Array.isArray(saved.habits)     ? saved.habits     : [],
   };
 }
 

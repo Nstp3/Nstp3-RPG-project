@@ -5,9 +5,11 @@
 import { state, saveState } from '../state.js';
 import { ProgressBar } from '../ui/progressBar.js';
 import { update } from '../renderer.js';
+import { xpForLevel } from '../xp.js';
 
 export function renderProfile() {
   const { name, avatar, level, xp, avatarUrl } = state.profile;
+  const needed = xpForLevel(level);
   const dailyPct = Math.min(100, Math.round((state.dailyXP / state.dailyXPLimit) * 100));
 
   const bgStyle = avatarUrl
@@ -37,12 +39,12 @@ export function renderProfile() {
 
       <div style="padding:12px;">
         <div class="xp-section">
-          <div class="xp-label">
-            <span>XP</span>
-            <span class="mono">${xp} / 100</span>
-          </div>
-          ${ProgressBar(xp, 100, 'green')}
-        </div>
+        <div class="xp-label">
+        <span>XP</span>
+        <span class="mono">${xp} / ${needed}</span>
+      </div>
+      ${ProgressBar(xp, needed, 'green')}
+      </div>
 
         <div class="xp-section" style="margin-top:10px">
           <div class="xp-label">

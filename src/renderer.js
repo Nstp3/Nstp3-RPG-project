@@ -11,12 +11,13 @@ import { renderTasks, bindTasks }               from './components/Tasks.js';
 import { renderSkillsList, renderRadarCard, bindSkills, renderRadarChart } from './components/Skills.js';
 import { renderActivityCard, renderLineChart }  from './components/ActivityChart.js';
 import { renderPomodoro, bindPomodoro }         from './components/Pomodoro.js';
+import { renderHabits, bindHabits }             from './components/Habits.js';
 
 export function render() {
   const app = document.getElementById('app');
   if (!app) return;
 
-  // Трёхколоночный лейаут
+  // четырёхколоночный лейаут
   app.innerHTML = `
     <div class="col col--left">
       ${renderProfile()}
@@ -28,6 +29,7 @@ export function render() {
     <div class="col col--mid">
       ${renderTasks()}
       ${renderSkillsList()}
+      ${renderHabits()}
       ${renderActivityCard()}
     </div>
   `;
@@ -37,6 +39,7 @@ export function render() {
   bindTasks();
   bindSkills();
   bindPomodoro();
+  bindHabits();
 
   // Чарты инициализируются после рендера (нужен DOM-элемент canvas)
   renderRadarChart();
