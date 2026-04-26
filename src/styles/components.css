@@ -270,3 +270,87 @@
 .dir-name { font-size: 12px; color: var(--text); letter-spacing: 0.5px; }
 .dir-pct  { color: var(--green); cursor: pointer; }
 .dir-pct:hover { text-decoration: underline; }
+/* ── Pomodoro ────────────────────────────────────────────── */
+.pom-phase {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text2);
+  font-family: var(--font-mono);
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.pom-time {
+  font-size: 42px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--green);
+  text-align: center;
+  letter-spacing: 4px;
+  line-height: 1;
+  margin: 6px 0;
+}
+
+.pom-controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.btn-pom {
+  flex: 1;
+  background: var(--green-dim);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  color: var(--green);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 7px 0;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn-pom:hover { background: rgba(0,230,118,0.22); }
+
+.btn-pom--ghost {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text2);
+}
+.btn-pom--ghost:hover {
+  border-color: var(--border2);
+  color: var(--green);
+  background: var(--green-dim);
+}
+
+.pom-settings {
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+
+.pom-setting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.pom-label-sm {
+  font-size: 11px;
+  color: var(--text2);
+  font-family: var(--font-mono);
+}
+
+.pom-input {
+  width: 56px;
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 4px 8px;
+  outline: none;
+  text-align: center;
+}
+.pom-input:focus { border-color: var(--border2); }
