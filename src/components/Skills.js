@@ -1,17 +1,14 @@
-// ============================================================
-// components/Skills.js — навыки + radar chart
-// ============================================================
-
 import { state, saveState } from '../state.js';
 import { ProgressBar } from '../ui/progressBar.js';
 import { update } from '../renderer.js';
+import { t } from '../i18n/translations.js';
 
 let radarChart = null;
 
 export function renderRadarCard() {
   return `
     <div class="card" style="width:230px; height:245px; padding:8px; flex-shrink:0;">
-      <div class="card-title">Radar</div>
+      <div class="card-title">${t('radar')}</div>
       <canvas id="radarChart"></canvas>
     </div>
   `;
@@ -19,17 +16,14 @@ export function renderRadarCard() {
 
 export function renderSkillsList() {
   const maxVal = Math.max(...Object.values(state.skills), 1);
-
   return `
     <div class="card">
-      <div class="card-title">Skills</div>
+      <div class="card-title">${t('skills')}</div>
       <div class="skill-list">
         ${Object.entries(state.skills).map(([key, val]) => `
           <div class="skill-row skill-edit" data-key="${key}">
             <span class="skill-name">${key}</span>
-            <div class="skill-bar-wrap">
-              ${ProgressBar(val, maxVal, 'green')}
-            </div>
+            <div class="skill-bar-wrap">${ProgressBar(val, maxVal, 'green')}</div>
             <span class="mono skill-val">${val}</span>
           </div>
         `).join('')}
@@ -42,14 +36,10 @@ export function bindSkills() {
   document.querySelectorAll('.skill-edit').forEach(el => {
     el.addEventListener('click', () => {
       const key = el.dataset.key;
-      const val = prompt(`Edit ${key}:`, state.skills[key]);
+      const val = prompt(`${key}:`, state.skills[key]);
       if (val === null) return;
       const n = Math.max(0, +val);
-      if (!isNaN(n)) {
-        state.skills[key] = n;
-        saveState();
-        update();
-      }
+      if (!isNaN(n)) { state.skills[key] = n; saveState(); update(); }
     });
   });
 }
@@ -57,15 +47,13 @@ export function bindSkills() {
 export function renderRadarChart() {
   const ctx = document.getElementById('radarChart');
   if (!ctx || typeof Chart === 'undefined') return;
-
   if (radarChart) radarChart.destroy();
-
   radarChart = new Chart(ctx, {
     type: 'radar',
     data: {
       labels: Object.keys(state.skills),
       datasets: [{
-        label: 'Skills',
+        label: t('skills'),
         data: Object.values(state.skills),
         borderColor: '#00e676',
         backgroundColor: 'rgba(0,230,118,0.1)',
@@ -75,8 +63,7 @@ export function renderRadarChart() {
       }]
     },
     options: {
-      responsive: true,
-      aspectRatio: 1.3,
+      responsive: true, aspectRatio: 1.3,
       plugins: { legend: { display: false } },
       scales: {
         r: {

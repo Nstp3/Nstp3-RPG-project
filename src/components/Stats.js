@@ -1,27 +1,24 @@
-// =====================================================================================
-// components/Stats.js — статы персонажа (здоровье, настроение, выносливость, мотивация)
-// =====================================================================================
-
 import { state, saveState } from '../state.js';
 import { ProgressBar } from '../ui/progressBar.js';
 import { update } from '../renderer.js';
+import { t } from '../i18n/translations.js';
 
-// Каждый стат имеет свой цветовой вариант
 const STAT_VARIANTS = {
-  Здоровье:    'hp',
-  Настроение:  'mood',
-  Выносливость:'focus',
-  Мотивация:   'mot',
+  Здоровье: 'hp', Настроение: 'mood', Выносливость: 'focus', Мотивация: 'mot',
+};
+
+const STAT_I18N = {
+  Здоровье: 'health', Настроение: 'mood', Выносливость: 'stamina', Мотивация: 'motivation',
 };
 
 export function renderStats() {
   return `
     <div class="card">
-      <div class="card-title">Stats</div>
+      <div class="card-title">${t('stats')}</div>
       ${Object.entries(state.stats).map(([key, val]) => `
         <div class="stat-row stat-edit" data-stat="${key}">
           <div class="stat-label">
-            <span class="stat-name">${key}</span>
+            <span class="stat-name">${t(STAT_I18N[key]) || key}</span>
             <span class="mono stat-val">${val}</span>
           </div>
           ${ProgressBar(val, 1000, STAT_VARIANTS[key] || 'green')}
@@ -35,14 +32,11 @@ export function bindStats() {
   document.querySelectorAll('.stat-edit').forEach(el => {
     el.addEventListener('click', () => {
       const key = el.dataset.stat;
-      const val = prompt(`Изменить ${key} (0–100):`, state.stats[key]);
+      const label = t(STAT_I18N[key]) || key;
+      const val = prompt(`${label} (0–1000):`, state.stats[key]);
       if (val === null) return;
       const n = Math.min(1000, Math.max(0, +val));
-      if (!isNaN(n)) {
-        state.stats[key] = n;
-        saveState();
-        update();
-      }
+      if (!isNaN(n)) { state.stats[key] = n; saveState(); update(); }
     });
   });
 }

@@ -1,13 +1,9 @@
 // ============================================================
 // state.js — единый источник правды
-// Все данные приложения живут здесь.
-// Никакой другой модуль не хранит данные — только читает из state.
 // ============================================================
 
-const STORAGE_KEY = 'life_rpg_v1';
+const STORAGE_KEY = 'life_rpg_v2';
 
-// Дефолтное состояние — используется при первом запуске
-// или как fallback при частичных данных из localStorage
 export const defaultState = {
   profile: {
     name: 'Hero',
@@ -22,89 +18,71 @@ export const defaultState = {
     Мотивация: 500,
   },
   skills: {
-    Физические: 50,
-    Психика: 40,
-    Интеллект: 30,
-    Покупки: 45,
-    'Домашние дела': 35,
-    'Другие дела': 55,
+    'Тело': 50,
+    'Разум': 40,
+    'Продуктивность': 30,
+    'Развлечения': 45,
+    'Быт': 35,
+    'Отдых': 55,
   },
-  tasks: [],
-  logs: [],       // [{ date: 'Mon Apr 25 2026', value: 3 }, ...]
+  tasks: [],          // активные задачи
+  taskHistory: [],    // выполненные: { id, text, category, completedAt }
+  logs: [],           // [{ date, value }] для activity chart
   habits: [],
-  directions: [
-    { name: 'Morning Routine', progress: 0 },
-    { name: 'Evening Wind-down', progress: 0 },
-  ],
+  movies: [],         // [{ id, title, poster, status }]
   dailyXP: 0,
   dailyXPLimit: 1000,
+  lang: 'ru',
   lastDate: new Date().toDateString(),
 };
 
-// Текущее состояние — мутируется напрямую, затем сохраняется
-// Глубокий merge: сохранённые данные перекрывают дефолты,
-// но недостающие ключи берутся из defaultState
 function mergeState(saved) {
   if (!saved) return structuredClone(defaultState);
   return {
     ...defaultState,
     ...saved,
-    profile:    { ...defaultState.profile,    ...saved.profile },
-    stats:      { ...defaultState.stats,       ...saved.stats },
-    skills:     { ...defaultState.skills,      ...saved.skills },
-    tasks:      Array.isArray(saved.tasks)      ? saved.tasks      : [],
-    logs:       Array.isArray(saved.logs)       ? saved.logs       : [],
-    directions: Array.isArray(saved.directions) ? saved.directions : defaultState.directions,
-    habits:     Array.isArray(saved.habits)     ? saved.habits     : [],
+    profile:      { ...defaultState.profile,  ...saved.profile },
+    stats:        { ...defaultState.stats,     ...saved.stats },
+    skills:       { ...defaultState.skills },
+    tasks:        Array.isArray(saved.tasks)        ? saved.tasks        : [],
+    taskHistory:  Array.isArray(saved.taskHistory)  ? saved.taskHistory  : [],
+    logs:         Array.isArray(saved.logs)         ? saved.logs         : [],
+    habits:       Array.isArray(saved.habits)       ? saved.habits       : [],
+    movies:       Array.isArray(saved.movies)       ? saved.movies       : [],
+    lang:         saved.lang || 'ru',
   };
 }
 
 function loadFromStorage() {
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY));
-  } catch {
-    return null;
-  }
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)); }
+  catch { return null; }
 }
 
 export let state = mergeState(loadFromStorage());
 
-// Сброс дневного счётчика XP при наступлении нового дня
+// Сброс при новом дне
 const today = new Date().toDateString();
 if (state.lastDate !== today) {
-  state.dailyXP = 0;
+  state.dailyXP  = 0;
   state.lastDate = today;
-  // Stats сбрасываются каждый день до базового значения
-  state.stats = {
-    Здоровье: 500,
-    Настроение: 500,
-    Выносливость: 500,
-    Мотивация: 500,
-  };
-}
+  state.stats = { Здоровье: 500, Настроение: 500, Выносливость: 500, Мотивация: 500 };
 
-// ============================================================
-// Сохранение
-// ============================================================
-
-export function saveState() {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch (e) {
-    console.warn('localStorage save failed:', e);
+  // Повторяющаяся задача "Отдых 1 час" каждый день
+  const hasRestTask = state.tasks.some(t => t.recurring && t.text === 'Отдых 1 час');
+  if (!hasRestTask) {
+    state.tasks.push({ id: Date.now(), text: 'Отдых 1 час', done: false, category: 'Отдых', recurring: true });
   }
 }
 
-// ============================================================
-// Экспорт / Импорт JSON
-// ============================================================
-
-export function exportJSON() {
-  return JSON.stringify(state, null, 2);
+export function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  catch (e) { console.warn('localStorage save failed:', e); }
 }
 
+export function exportJSON() { return JSON.stringify(state, null, 2); }
+
 export function importJSON(json) {
-  const parsed = JSON.parse(json); // выбросит SyntaxError если невалидный JSON
+  const parsed = JSON.parse(json);
   state = mergeState(parsed);
   saveState();
 }

@@ -1,3 +1,4 @@
+import { t } from '../i18n/translations.js';
 // ============================================================
 // components/ActivityChart.js — line chart активности по дням
 // ============================================================
@@ -9,7 +10,7 @@ let lineChart = null;
 export function renderActivityCard() {
   return `
     <div class="card" style="flex:1; min-width:0;">
-      <div class="card-title">Activity</div>
+      <div class="card-title">${t('activity')}</div>
       <div style="height:190px;">
         <canvas id="lineChart"></canvas>
       </div>

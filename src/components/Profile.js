@@ -3,6 +3,7 @@
 // ============================================================
 
 import { state, saveState } from '../state.js';
+import { t } from '../i18n/translations.js';
 import { ProgressBar } from '../ui/progressBar.js';
 import { update } from '../renderer.js';
 import { xpForLevel } from '../xp.js';
@@ -34,7 +35,7 @@ export function renderProfile() {
 
         ${!avatarUrl ? `<div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:40px; opacity:0.3;">${avatar}</div>` : ''}
 
-        <div style="position:absolute; bottom:8px; right:10px; font-size:10px; color:rgba(255,255,255,0.4); font-family:var(--font-mono);">+ фото</div>
+        <div style="position:absolute; bottom:8px; right:10px; font-size:10px; color:rgba(255,255,255,0.4); font-family:var(--font-mono);">${t('photo')}</div>
       </label>
 
       <div style="padding:12px;">

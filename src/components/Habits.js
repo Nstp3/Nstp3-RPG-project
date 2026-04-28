@@ -1,24 +1,11 @@
-// ============================================================
-// components/Habits.js — трекер привычек (тепловая карта)
-// Drag-выделение диапазона, +10 XP за каждую отметку
-// ============================================================
-
 import { state, saveState } from '../state.js';
 import { addXP, XP_PER_HABIT } from '../xp.js';
 import { showToast } from '../ui/toast.js';
 import { update } from '../renderer.js';
+import { t } from '../i18n/translations.js';
 
-// Инициализация массива привычек в state если нет
-function ensureHabits() {
-  if (!Array.isArray(state.habits)) state.habits = [];
-}
-
-// Получить текущий день месяца (1–31)
-function todayDay() {
-  return new Date().getDate();
-}
-
-// Получить количество дней в текущем месяце
+function ensureHabits() { if (!Array.isArray(state.habits)) state.habits = []; }
+function todayDay() { return new Date().getDate(); }
 function daysInMonth() {
   const now = new Date();
   return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
@@ -32,12 +19,17 @@ export function renderHabits() {
   return `
     <div class="card" id="habitsCard">
       <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;">
-        <span>Привычки</span>
+        <span>${t('habits')}</span>
+      </div>
+
+      <!-- Поле ввода новой привычки (как в Tasks) -->
+      <div class="task-input-row" style="margin-bottom:12px;">
+        <input id="habitInput" placeholder="${t('habit_placeholder')}" class="task-input" />
         <button class="btn-add" id="addHabitBtn">+</button>
       </div>
 
       ${state.habits.length === 0
-        ? `<p class="empty-hint">Нет привычек. Добавь первую!</p>`
+        ? `<p class="empty-hint">${t('habits_empty')}</p>`
         : state.habits.map((h, hi) => `
             <div class="habit-row" style="margin-bottom:10px;">
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
@@ -60,8 +52,7 @@ export function renderHabits() {
                     data-hi="${hi}"
                     data-day="${day}"
                     style="
-                      height:14px;
-                      border-radius:2px;
+                      height:14px;border-radius:2px;
                       cursor:${future ? 'default' : 'pointer'};
                       background:${done ? '#1D9E75' : 'var(--bg4)'};
                       ${isToday ? 'outline:1.5px solid #378ADD;outline-offset:1px;' : ''}
@@ -81,44 +72,43 @@ export function renderHabits() {
 export function bindHabits() {
   ensureHabits();
 
-  document.getElementById('addHabitBtn')?.addEventListener('click', () => {
-    const name = prompt('Название привычки:');
-    if (!name?.trim()) return;
-    state.habits.push({ name: name.trim(), done: [] });
+  const habitInput = document.getElementById('habitInput');
+
+  function doAddHabit() {
+    const name = habitInput?.value.trim();
+    if (!name) return;
+    state.habits.push({ name, done: [] });
+    habitInput.value = '';
     saveState();
     update();
-  });
+  }
+
+  document.getElementById('addHabitBtn')?.addEventListener('click', doAddHabit);
+  habitInput?.addEventListener('keydown', e => { if (e.key === 'Enter') doAddHabit(); });
 
   document.querySelectorAll('.btn-del[data-hi]').forEach(btn => {
     btn.addEventListener('click', () => {
       const hi = +btn.dataset.hi;
       if (confirm(`Удалить привычку "${state.habits[hi].name}"?`)) {
-        // XP НЕ отнимаем при удалении
         state.habits.splice(hi, 1);
-        saveState();
-        update();
+        saveState(); update();
       }
     });
   });
 
-  let dragState = null; // { hi, startDay, endDay, mode }
+  let dragState = null;
 
-  const getSquares = (hi) =>
-    [...document.querySelectorAll(`.habit-sq[data-hi="${hi}"]`)];
+  const getSquares = (hi) => [...document.querySelectorAll(`.habit-sq[data-hi="${hi}"]`)];
 
-  // Обновляет визуал во время drag без изменения state
   function previewDrag(hi, startDay, endDay) {
     const min = Math.min(startDay, endDay);
     const max = Math.max(startDay, endDay);
     const habit = state.habits[hi];
-
     getSquares(hi).forEach(sq => {
       const day  = +sq.dataset.day;
       const done = (habit.done || []).includes(day);
       const inRange = day >= min && day <= max;
-
       if (inRange) {
-        // режим определяется по startDay: если он был done — снимаем, нет — ставим
         sq.style.background = dragState.mode === 'remove' ? 'var(--bg4)' : '#1D9E75';
         sq.style.opacity = '1';
       } else {
@@ -128,7 +118,6 @@ export function bindHabits() {
     });
   }
 
-  // Применяет drag к state
   function commitDrag() {
     if (!dragState) return;
     const { hi, startDay, endDay, mode } = dragState;
@@ -136,47 +125,26 @@ export function bindHabits() {
     const max   = Math.max(startDay, endDay);
     const habit = state.habits[hi];
     const today = todayDay();
-
     for (let day = min; day <= max; day++) {
       if (day > today) continue;
       const idx = (habit.done || []).indexOf(day);
-
-      if (mode === 'add' && idx === -1) {
-        habit.done.push(day);
-        addXP(XP_PER_HABIT);
-      } else if (mode === 'remove' && idx !== -1) {
-        habit.done.splice(idx, 1);
-        addXP(-XP_PER_HABIT);
-      }
+      if (mode === 'add' && idx === -1) { habit.done.push(day); addXP(XP_PER_HABIT); }
+      else if (mode === 'remove' && idx !== -1) { habit.done.splice(idx, 1); addXP(-XP_PER_HABIT); }
     }
-
-    if (mode === 'add') showToast(`+XP · Привычки отмечены`, 'xp');
-
-    saveState();
-    dragState = null;
-    update();
+    if (mode === 'add') showToast(`+XP · ${t('habits')}`, 'xp');
+    saveState(); dragState = null; update();
   }
 
   document.querySelectorAll('.habit-sq').forEach(sq => {
     const day   = +sq.dataset.day;
     const hi    = +sq.dataset.hi;
-    const today = todayDay();
-
-    if (day > today) return;
-
-    sq.addEventListener('mousedown', (e) => {
+    if (day > todayDay()) return;
+    sq.addEventListener('mousedown', e => {
       e.preventDefault();
       const done = (state.habits[hi].done || []).includes(day);
-      // Режим drag определяется по состоянию стартовой ячейки
-      dragState = {
-        hi,
-        startDay: day,
-        endDay:   day,
-        mode:     done ? 'remove' : 'add',
-      };
+      dragState = { hi, startDay: day, endDay: day, mode: done ? 'remove' : 'add' };
       previewDrag(hi, day, day);
     });
-
     sq.addEventListener('mouseenter', () => {
       if (!dragState || dragState.hi !== hi) return;
       dragState.endDay = day;
@@ -184,13 +152,5 @@ export function bindHabits() {
     });
   });
 
-  // mouseup на document — ловим даже если мышь вышла за пределы
-  document.addEventListener('mouseup', () => {
-    if (!dragState) return;
-    commitDrag();
-  });
-}
-
-function toggleDay(hi, day) {
-  // toggleDay больше не используется — логика внутри commitDrag
+  document.addEventListener('mouseup', () => { if (dragState) commitDrag(); });
 }

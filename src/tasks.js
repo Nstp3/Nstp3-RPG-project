@@ -7,20 +7,18 @@ import { addXP, XP_PER_TASK } from './xp.js';
 import { incrementLog, decrementLog } from './logger.js';
 import { showToast } from './ui/toast.js';
 
-// Таблица влияния скилла на stats
 const SKILL_EFFECTS = {
-  'Физические':    { Здоровье: +10, Настроение: +5,  Мотивация: +10, Выносливость: -5  },
-  'Психика':       { Здоровье: +10, Настроение: +10, Мотивация: +5,  Выносливость: +5  },
-  'Интеллект':     { Здоровье: +5,  Мотивация: +5,                   Выносливость: -5  },
-  'Домашние дела': { Настроение: +5, Мотивация: +5,                  Выносливость: -10 },
-  'Покупки':       { Настроение: +10,                                 Выносливость: -5  },
-  'Другие дела':   { Здоровье: +5,  Настроение: +5,                  Выносливость: -5  },
+  'Тело':           { Здоровье: +15, Выносливость: +10, Настроение: +5 },
+  'Разум':          { Мотивация: +10, Выносливость: +15, Настроение: -5 },
+  'Продуктивность': { Мотивация: +15, Выносливость: +10, Настроение: -5 },
+  'Развлечения':    { Настроение: +15, Выносливость: +5 },
+  'Быт':            { Настроение: +5, Мотивация: +5, Выносливость: -10 },
+  'Отдых':          { Выносливость: +20, Настроение: +10, Мотивация: -5 },
 };
 
 function applyStatEffects(category, reverse = false) {
   const effects = SKILL_EFFECTS[category];
   if (!effects) return;
-
   Object.entries(effects).forEach(([stat, value]) => {
     if (!(stat in state.stats)) return;
     const delta = reverse ? -value : value;
@@ -36,12 +34,7 @@ function applySkillBonus(category, reverse = false) {
 
 export function addTask(text, category) {
   if (!text || !text.trim()) return false;
-  state.tasks.push({
-    id: Date.now(),
-    text: text.trim(),
-    done: false,
-    category,
-  });
+  state.tasks.push({ id: Date.now(), text: text.trim(), done: false, category });
   saveState();
   return true;
 }
@@ -49,12 +42,14 @@ export function addTask(text, category) {
 export function deleteTask(id) {
   const idx = state.tasks.findIndex(t => t.id === id);
   if (idx === -1) return;
-  if (state.tasks[idx].done) {
-    const cat = state.tasks[idx].category;
+  const task = state.tasks[idx];
+  if (task.done) {
     addXP(-XP_PER_TASK);
-    applyStatEffects(cat, true);
-    applySkillBonus(cat, true);
+    applyStatEffects(task.category, true);
+    applySkillBonus(task.category, true);
     decrementLog();
+    // Убрать из истории
+    state.taskHistory = state.taskHistory.filter(h => h.id !== task.id);
   }
   state.tasks.splice(idx, 1);
   saveState();
@@ -72,6 +67,13 @@ export function toggleTask(id) {
       applyStatEffects(task.category);
       applySkillBonus(task.category);
       incrementLog();
+      // Добавить в историю
+      state.taskHistory.push({
+        id: task.id,
+        text: task.text,
+        category: task.category,
+        completedAt: new Date().toISOString(),
+      });
       showToast(`+${XP_PER_TASK} XP · ${task.category} +5`, 'xp');
     }
   } else {
@@ -79,6 +81,8 @@ export function toggleTask(id) {
     applyStatEffects(task.category, true);
     applySkillBonus(task.category, true);
     decrementLog();
+    // Убрать из истории при отмене
+    state.taskHistory = state.taskHistory.filter(h => h.id !== task.id);
   }
 
   saveState();

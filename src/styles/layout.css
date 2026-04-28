@@ -66,3 +66,48 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ============================================================
+   Tab Navigation
+   ============================================================ */
+.tab-nav {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--text2);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+  letter-spacing: .3px;
+}
+
+.tab-btn:hover {
+  background: var(--bg3);
+  color: var(--text);
+}
+
+.tab-btn--active {
+  background: var(--bg3);
+  color: var(--green);
+  border-bottom: 2px solid var(--green);
+  border-radius: 6px 6px 0 0;
+}
+
+/* Calendar day styles */
+.cal-day:hover {
+  background: var(--bg3) !important;
+  opacity: 1 !important;
+}
+
+.cal-day--today:hover {
+  background: var(--green) !important;
+}
