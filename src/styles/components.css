@@ -107,6 +107,14 @@
 .progress-bar--focus  { background: linear-gradient(90deg, #0277bd, var(--blue)); }
 .progress-bar--mot    { background: linear-gradient(90deg, #e65100, var(--amber)); }
 
+/* ── Skill bar colors (по типу навыка) ──────────────────── */
+.progress-bar--skill-body { background: linear-gradient(90deg, #b71c1c, #ef5350); }   /* Тело — красный */
+.progress-bar--skill-mind { background: linear-gradient(90deg, #6a1b9a, #ab47bc); }   /* Разум — фиолетовый */
+.progress-bar--skill-prod { background: linear-gradient(90deg, #0277bd, #42a5f5); }   /* Продуктивность — синий */
+.progress-bar--skill-fun  { background: linear-gradient(90deg, #2e7d32, #66bb6a); }   /* Развлечения — зелёный */
+.progress-bar--skill-home { background: linear-gradient(90deg, #e65100, #ffa726); }   /* Быт — янтарный */
+.progress-bar--skill-rest { background: linear-gradient(90deg, #37474f, #78909c); }   /* Отдых — серо-синий */
+
 /* ── Stats ──────────────────────────────────────────────── */
 .stat-row {
   margin-bottom: 9px;
@@ -244,7 +252,7 @@
 .skill-row:hover { background: var(--bg3); }
 
 .skill-name { font-size: 11px; color: var(--text2); letter-spacing: 1px; }
-.skill-val  { font-size: 11px; color: var(--green); text-align: right; }
+.skill-val  { font-size: 11px; text-align: right; }
 .skill-bar-wrap .progress { height: 4px; }
 
 /* ── Directions ─────────────────────────────────────────── */
@@ -270,6 +278,7 @@
 .dir-name { font-size: 12px; color: var(--text); letter-spacing: 0.5px; }
 .dir-pct  { color: var(--green); cursor: pointer; }
 .dir-pct:hover { text-decoration: underline; }
+
 /* ── Pomodoro ────────────────────────────────────────────── */
 .pom-phase {
   font-size: 10px;

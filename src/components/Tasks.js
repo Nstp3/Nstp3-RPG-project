@@ -6,18 +6,19 @@ import { t, tSkill } from '../i18n/translations.js';
 const SKILL_KEYS = ['Тело','Разум','Продуктивность','Развлечения','Быт','Отдых'];
 
 export function renderTasks() {
-  const tasks = state.tasks;
+  // Показываем только невыполненные (выполненные авто-уходят в историю)
+  const tasks = state.tasks.filter(task => !task.done);
   return `
     <div class="card">
       <div class="card-title">${t('tasks')}</div>
       <div class="task-input-row">
         <input id="taskInput" placeholder="${t('task_placeholder')}" class="task-input" />
         <select id="taskCat" class="task-select">
-          ${SKILL_KEYS.map(k => `<option value="${k}">${k}</option>`).join('')}
+          ${SKILL_KEYS.map(k => `<option value="${k}">${tSkill(k)}</option>`).join('')}
         </select>
         <button class="btn-add" id="taskAddBtn">+</button>
       </div>
-      <div id="taskList">
+      <div id="taskList" style="max-height:210px;overflow-y:auto;overflow-x:hidden;padding-right:2px;">
         ${tasks.length === 0
           ? `<p class="empty-hint">${t('tasks_empty')}</p>`
           : tasks.map(task => renderTask(task)).join('')
@@ -36,9 +37,9 @@ function renderTask(task) {
   const recurIcon = task.recurring ? ' 🔄' : '';
   return `
     <div class="task-item" data-id="${task.id}">
-      <input type="checkbox" class="task-check" ${task.done ? 'checked' : ''} data-id="${task.id}" />
-      <span class="task-text ${task.done ? 'task-text--done' : ''}">${task.text}${recurIcon}</span>
-      <span class="task-cat ${catClass}">${task.category}</span>
+      <input type="checkbox" class="task-check" data-id="${task.id}" />
+      <span class="task-text">${task.text}${recurIcon}</span>
+      <span class="task-cat ${catClass}">${tSkill(task.category)}</span>
       <button class="btn-del" data-id="${task.id}" title="Delete">✕</button>
     </div>
   `;

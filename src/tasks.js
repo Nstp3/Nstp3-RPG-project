@@ -43,47 +43,37 @@ export function addTask(text, category) {
 export function deleteTask(id) {
   const idx = state.tasks.findIndex(t => t.id === id);
   if (idx === -1) return;
-  const task = state.tasks[idx];
-  if (task.done) {
-    addXP(-XP_PER_TASK);
-    applyStatEffects(task.category, true);
-    applySkillBonus(task.category, true);
-    decrementLog();
-    // Убрать из истории
-    state.taskHistory = state.taskHistory.filter(h => h.id !== task.id);
-  }
+  // Просто удаляем из списка — история и XP не трогаем
   state.tasks.splice(idx, 1);
   saveState();
 }
 
 export function toggleTask(id) {
   const task = state.tasks.find(t => t.id === id);
-  if (!task) return;
+  if (!task || task.done) return;
 
-  task.done = !task.done;
+  task.done = true;
+  const { added } = addXP(XP_PER_TASK);
 
-  if (task.done) {
-    const { added } = addXP(XP_PER_TASK);
-    if (added) {
-      applyStatEffects(task.category);
-      applySkillBonus(task.category);
-      incrementLog();
-      // Добавить в историю
-      state.taskHistory.push({
-        id: task.id,
-        text: task.text,
-        category: task.category,
-        completedAt: new Date().toISOString(),
-      });
-      showToast(`+${XP_PER_TASK} XP · ${tSkill(task.category)} +5`, 'xp');
-    }
+  if (added) {
+    applyStatEffects(task.category);
+    applySkillBonus(task.category);
+    incrementLog();
+
+    state.taskHistory.push({
+      id: task.id,
+      text: task.text,
+      category: task.category,
+      completedAt: new Date().toISOString(),
+    });
+
+    showToast(`+${XP_PER_TASK} XP · ${tSkill(task.category)} +5`, 'xp');
+
+    // Авто-архивируем: задача уходит из активного списка в историю
+    state.tasks = state.tasks.filter(t => t.id !== id);
   } else {
-    addXP(-XP_PER_TASK);
-    applyStatEffects(task.category, true);
-    applySkillBonus(task.category, true);
-    decrementLog();
-    // Убрать из истории при отмене
-    state.taskHistory = state.taskHistory.filter(h => h.id !== task.id);
+    // Дневной лимит — откатываем
+    task.done = false;
   }
 
   saveState();

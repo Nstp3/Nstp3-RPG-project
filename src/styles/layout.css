@@ -4,16 +4,22 @@
 
 /* ── Topbar ─────────────────────────────────────────────── */
 .topbar {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  padding: 0 20px;
-  height: 48px;
   background: var(--bg2);
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
   z-index: 100;
+}
+
+/* Внутренняя зона топбара — ограничена шириной дашборда */
+.topbar-inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  height: 48px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 14px;
   gap: 8px;
 }
 
@@ -118,7 +124,7 @@
 
 /* ── Responsive ─────────────────────────────────────────── */
 @media (max-width: 860px) {
-  .topbar {
+  .topbar-inner {
     grid-template-columns: auto 1fr auto;
     padding: 0 10px;
   }
@@ -127,7 +133,7 @@
 }
 
 @media (max-width: 600px) {
-  .topbar {
+  .topbar-inner {
     grid-template-columns: 1fr;
     height: auto;
     padding: 8px 10px;

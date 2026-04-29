@@ -76,6 +76,12 @@ export function bindHabits() {
   let dragState = null;
   const getSquares = hi => [...document.querySelectorAll(`.habit-sq[data-hi="${hi}"]`)];
 
+  // Удаляем предыдущий mouseup-обработчик перед добавлением нового
+  // (bindHabits вызывается при каждом render — без этого обработчики накапливались бы)
+  if (window.__habitsMouseUp) {
+    document.removeEventListener('mouseup', window.__habitsMouseUp);
+  }
+
   function previewDrag(hi, startDay, endDay) {
     const min = Math.min(startDay, endDay), max = Math.max(startDay, endDay);
     const habit = state.habits[hi];
@@ -115,5 +121,6 @@ export function bindHabits() {
       dragState.endDay = day; previewDrag(hi, dragState.startDay, day);
     });
   });
-  document.addEventListener('mouseup', () => { if (dragState) commitDrag(); });
+  window.__habitsMouseUp = () => { if (dragState) commitDrag(); };
+  document.addEventListener('mouseup', window.__habitsMouseUp);
 }

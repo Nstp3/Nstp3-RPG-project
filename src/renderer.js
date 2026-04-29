@@ -16,30 +16,50 @@ import { renderCalendar, bindCalendar }         from './components/Calendar.js';
 import { t } from './i18n/translations.js';
 
 let currentTab = 'home';
+let tabsInitialized = false; // ← флаг: вешаем обработчики на вкладки только ОДИН РАЗ
 
-// Делаем update доступным глобально для компонентов
 window.__renderer__ = { update };
+
+// Инициализация вкладок — вызывается единожды
+function initTabs() {
+  if (tabsInitialized) return;
+  tabsInitialized = true;
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentTab = btn.dataset.tab;
+      render();
+    });
+  });
+}
+
+// Обновление активного состояния вкладок — без добавления новых listener-ов
+function updateTabState() {
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.toggle('tab-btn--active', btn.dataset.tab === currentTab);
+  });
+  // Обновляем i18n-тексты внутри кнопок
+  document.querySelectorAll('.tab-btn [data-i18n]').forEach(el => {
+    el.textContent = t(el.dataset.i18n);
+  });
+}
 
 export function render() {
   const app = document.getElementById('app');
   if (!app) return;
 
-  // Обновляем кнопку языка в topbar
-  const btnLang = document.getElementById('btnLang');
-  if (btnLang) btnLang.textContent = t('lang');
-
-  // Обновляем topbar кнопки
+  // Topbar: язык и кнопки
+  const btnLang   = document.getElementById('btnLang');
   const btnExport = document.getElementById('btnExport');
   const btnImport = document.getElementById('btnImport');
+  if (btnLang)   btnLang.textContent   = t('lang');
   if (btnExport) btnExport.textContent = t('export');
   if (btnImport) btnImport.textContent = t('import');
 
-  // Обновляем вкладки
-  document.querySelectorAll('.tab-btn [data-i18n]').forEach(el => {
-    const key = el.dataset.i18n;
-    el.textContent = t(key);
-  });
+  // Вкладки: один раз байндим, всегда обновляем стиль
+  initTabs();
+  updateTabState();
 
+  // Контент по вкладке
   if (currentTab === 'home') {
     app.innerHTML = `
       <div class="col col--left">
@@ -64,11 +84,10 @@ export function render() {
         ${renderCalendar()}
       </div>
       <div class="col col--mid">
-        ${renderTasks()}
         ${renderTaskHistory()}
       </div>
     `;
-    bindTasks(); bindTaskHistory(); bindCalendar();
+    bindTaskHistory(); bindCalendar();
 
   } else if (currentTab === 'relax') {
     app.innerHTML = `
@@ -78,15 +97,6 @@ export function render() {
     `;
     bindMovies();
   }
-
-  // Вкладки
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.classList.toggle('tab-btn--active', btn.dataset.tab === currentTab);
-    btn.addEventListener('click', () => {
-      currentTab = btn.dataset.tab;
-      render();
-    });
-  });
 }
 
 export function update() {
