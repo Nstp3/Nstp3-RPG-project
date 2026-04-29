@@ -34,6 +34,10 @@ export const translations = {
     movie_add: 'Добавить', movies_empty: 'Нет фильмов. Добавь первый!',
     status_planned: 'Планирую', status_unwatched: 'Не смотрел', status_favorite: 'Любимые',
     filter_planned: 'Планирую', filter_unwatched: 'Не смотрел', filter_favorite: 'Любимые',
+    // Music
+    local_player: 'ЛОКАЛЬНЫЙ ПЛЕЕР', load_files: 'Загрузить файлы', load_folder: 'Загрузить папку',
+    local_no_track: 'Трек не выбран', local_empty: 'Загрузи MP3-файлы или папку с музыкой',
+    sc_player: 'SOUNDCLOUD', sc_placeholder: 'Ссылка на трек или плейлист SoundCloud...', sc_add: 'Добавить',
     // Calendar
     calendar: 'Календарь', cal_no_tasks: 'Нет задач за этот день',
     cal_done_prefix: 'выполнено',
@@ -81,6 +85,10 @@ export const translations = {
     movie_add: 'Add', movies_empty: 'No movies. Add your first!',
     status_planned: 'Planning', status_unwatched: 'Unwatched', status_favorite: 'Favorites',
     filter_planned: 'Planning', filter_unwatched: 'Unwatched', filter_favorite: 'Favorites',
+    // Music
+    local_player: 'LOCAL PLAYER', load_files: 'Load files', load_folder: 'Load folder',
+    local_no_track: 'No track selected', local_empty: 'Load MP3 files or a music folder',
+    sc_player: 'SOUNDCLOUD', sc_placeholder: 'SoundCloud track or playlist URL...', sc_add: 'Add',
     // Calendar
     calendar: 'Calendar', cal_no_tasks: 'No tasks for this day',
     cal_done_prefix: 'done',

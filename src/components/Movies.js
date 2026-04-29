@@ -67,7 +67,7 @@ export function renderMovies() {
       <!-- Список фильмов -->
       ${filtered.length === 0
         ? `<p class="empty-hint">${t('movies_empty')}</p>`
-        : `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;">
+        : `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
             ${filtered.map(m => `
               <div class="movie-card" data-id="${m.id}" style="background:var(--bg3);border-radius:8px;overflow:hidden;position:relative;">
                 <div style="height:160px;background:var(--bg4);overflow:hidden;">

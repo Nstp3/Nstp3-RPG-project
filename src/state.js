@@ -30,6 +30,8 @@ export const defaultState = {
   logs: [],           // [{ date, value }] для activity chart
   habits: [],
   movies: [],         // [{ id, title, poster, status }]
+  scEmbeds: [],       // [{ id, url, title }] — SoundCloud эмбеды
+  scActive: null,     // id активного SoundCloud эмбеда
   dailyXP: 0,
   dailyXPLimit: 1000,
   lang: 'ru',
@@ -49,6 +51,8 @@ function mergeState(saved) {
     logs:         Array.isArray(saved.logs)         ? saved.logs         : [],
     habits:       Array.isArray(saved.habits)       ? saved.habits       : [],
     movies:       Array.isArray(saved.movies)       ? saved.movies       : [],
+    scEmbeds:     Array.isArray(saved.scEmbeds)     ? saved.scEmbeds     : [],
+    scActive:     saved.scActive                    ?? null,
     lang:         saved.lang || 'ru',
   };
 }

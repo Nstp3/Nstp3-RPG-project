@@ -11,6 +11,7 @@ import { renderActivityCard, renderLineChart }  from './components/ActivityChart
 import { renderPomodoro, bindPomodoro }         from './components/Pomodoro.js';
 import { renderHabits, bindHabits }             from './components/Habits.js';
 import { renderMovies, bindMovies }             from './components/Movies.js';
+import { renderLocalPlayer, bindLocalPlayer, renderSoundCloudPlayer, bindSoundCloudPlayer } from './components/Music.js';
 import { renderTaskHistory, bindTaskHistory }   from './components/TaskHistory.js';
 import { renderCalendar, bindCalendar }         from './components/Calendar.js';
 import { t } from './i18n/translations.js';
@@ -91,11 +92,15 @@ export function render() {
 
   } else if (currentTab === 'relax') {
     app.innerHTML = `
-      <div class="col col--mid" style="grid-column:1/-1;max-width:900px;margin:0 auto;">
+      <div style="grid-column:1/-1;max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:12px;width:100%;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          ${renderLocalPlayer()}
+          ${renderSoundCloudPlayer()}
+        </div>
         ${renderMovies()}
       </div>
     `;
-    bindMovies();
+    bindLocalPlayer(); bindSoundCloudPlayer(); bindMovies();
   }
 }
 
