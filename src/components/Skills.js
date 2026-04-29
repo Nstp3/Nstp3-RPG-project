@@ -2,10 +2,11 @@ import { state, saveState } from '../state.js';
 import { ProgressBar } from '../ui/progressBar.js';
 import { update } from '../renderer.js';
 import { t, tSkill } from '../i18n/translations.js';
+import { getTheme } from '../themes.js';
+import { ICONS } from '../icons.js';
 
 let radarChart = null;
 
-// Цвет полосы прогресса (соответствует CSS progress-bar--<variant>)
 const SKILL_BAR_COLOR = {
   'Тело':           'skill-body',
   'Разум':          'skill-mind',
@@ -15,29 +16,20 @@ const SKILL_BAR_COLOR = {
   'Отдых':          'skill-rest',
 };
 
-// Короткие подписи для радара — работают на обоих языках
 const RADAR_SHORT = {
   'Продуктивность': 'Продукт.',
   'Развлечения':    'Развлеч.',
   'Productivity':   'Product.',
   'Entertainment':  'Entert.',
 };
+
 function radarLabel(key) {
   const full = tSkill(key);
   return RADAR_SHORT[full] || full;
 }
 
-// Цвет числового значения и точек радара
-const SKILL_COLOR = {
-  'Тело':           '#ef5350',
-  'Разум':          '#ab47bc',
-  'Продуктивность': '#42a5f5',
-  'Развлечения':    '#66bb6a',
-  'Быт':            '#ffa726',
-  'Отдых':          '#78909c',
-};
-
 export function renderRadarCard() {
+  const theme = getTheme();
   return `
     <div class="card" style="height:245px;padding:8px;flex-shrink:0;display:flex;flex-direction:column;">
       <div class="card-title">${t('radar')}</div>
@@ -49,6 +41,7 @@ export function renderRadarCard() {
 }
 
 export function renderSkillsList() {
+  const theme  = getTheme();
   const maxVal = Math.max(...Object.values(state.skills), 1);
   return `
     <div class="card">
@@ -56,10 +49,17 @@ export function renderSkillsList() {
       <div class="skill-list">
         ${Object.entries(state.skills).map(([key, val]) => {
           const barVariant = SKILL_BAR_COLOR[key] || 'green';
-          const color      = SKILL_COLOR[key]     || 'var(--green)';
+          const color      = (theme.skillColors || {})[key] || 'var(--green)';
+          const iconSrc    = (theme.skills || {})[key];
+          const icon = iconSrc
+            ? `<img src="${iconSrc}" class="skill-icon" alt="">`
+            : '';
           return `
             <div class="skill-row skill-edit" data-key="${key}">
-              <span class="skill-name">${tSkill(key)}</span>
+              <span style="display:flex;align-items:center;gap:6px;min-width:0;">
+                ${icon}
+                <span class="skill-name">${tSkill(key)}</span>
+              </span>
               <div class="skill-bar-wrap">${ProgressBar(val, maxVal, barVariant)}</div>
               <span class="mono skill-val" style="color:${color};">${val}</span>
             </div>
@@ -87,9 +87,10 @@ export function renderRadarChart() {
   if (!ctx || typeof Chart === 'undefined') return;
   if (radarChart) radarChart.destroy();
 
-  const keys         = Object.keys(state.skills);
-  const values       = Object.values(state.skills);
-  const pointColors  = keys.map(k => SKILL_COLOR[k] || '#00e676');
+  const theme = getTheme();
+  const keys  = Object.keys(state.skills);
+  const values = Object.values(state.skills);
+  const pointColors = keys.map(k => (theme.skillColors || {})[k] || '#00e676');
 
   radarChart = new Chart(ctx, {
     type: 'radar',
@@ -98,10 +99,10 @@ export function renderRadarChart() {
       datasets: [{
         label: t('skills'),
         data: values,
-        borderColor: 'rgba(0,230,118,0.6)',
-        backgroundColor: 'rgba(0,230,118,0.07)',
+        borderColor:          theme.radarBorder || 'rgba(0,230,118,0.6)',
+        backgroundColor:      theme.radarFill   || 'rgba(0,230,118,0.07)',
         pointBackgroundColor: pointColors,
-        pointBorderColor: pointColors,
+        pointBorderColor:     pointColors,
         pointRadius: 4,
         borderWidth: 1.5,
       }]
@@ -112,10 +113,13 @@ export function renderRadarChart() {
       plugins: { legend: { display: false } },
       scales: {
         r: {
-          grid:        { color: 'rgba(255,255,255,0.06)' },
-          angleLines:  { color: 'rgba(255,255,255,0.08)' },
-          pointLabels: { color: '#7d8590', font: { size: 7, family: 'Space Mono' } },
-          ticks:       { display: false },
+          grid:        { color: theme.radarGrid   || 'rgba(255,255,255,0.06)' },
+          angleLines:  { color: theme.radarGrid   || 'rgba(255,255,255,0.06)' },
+          pointLabels: {
+            color: theme.radarLabels || '#7d8590',
+            font:  { size: 7, family: theme.radarFont || 'Space Mono' }
+          },
+          ticks: { display: false },
         }
       }
     }

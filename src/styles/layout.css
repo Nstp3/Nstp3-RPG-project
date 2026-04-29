@@ -157,3 +157,71 @@
 .cal-day--today:hover {
   background: var(--green) !important;
 }
+
+/* ── Виньетка: затемнение краёв за пределами дашборда ───── */
+body {
+  position: relative;
+}
+
+/* Левый и правый градиент от края к дашборду */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: calc((100vw - 1100px) / 2);
+  pointer-events: none;
+  z-index: 50;
+}
+
+body::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(0,0,0,0.35) 0%, transparent 100%);
+}
+
+body::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(0,0,0,0.35) 0%, transparent 100%);
+}
+
+/* Топбар: тот же эффект — затемнение по краям внутри самой полосы */
+.topbar::before,
+.topbar::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: calc((100vw - 1128px) / 2);   /* чуть шире — перекрывает padding */
+  pointer-events: none;
+  z-index: 1;
+}
+
+.topbar::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(0,0,0,0.28) 0%, transparent 100%);
+}
+
+.topbar::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(0,0,0,0.28) 0%, transparent 100%);
+}
+
+/* Топбар должен быть relative для позиционирования псевдоэлементов */
+.topbar { position: relative; }
+
+/* AC-тема — более тёплое затемнение (сепия) */
+[data-theme="ac"] body::before,
+[data-theme="ac"] body::after {
+  /* переопределяем через inline стиль из JS невозможно — поэтому дублируем */
+}
+
+[data-theme="ac"] body::before { background: linear-gradient(to right, rgba(30,15,5,0.30) 0%, transparent 100%); }
+[data-theme="ac"] body::after  { background: linear-gradient(to left,  rgba(30,15,5,0.30) 0%, transparent 100%); }
+[data-theme="ac"] .topbar::before { background: linear-gradient(to right, rgba(30,15,5,0.22) 0%, transparent 100%); }
+[data-theme="ac"] .topbar::after  { background: linear-gradient(to left,  rgba(30,15,5,0.22) 0%, transparent 100%); }
+
+/* Скрываем виньетку когда экран почти равен ширине дашборда */
+@media (max-width: 1200px) {
+  body::before, body::after,
+  .topbar::before, .topbar::after { display: none; }
+}

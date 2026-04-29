@@ -35,6 +35,7 @@ export const defaultState = {
   dailyXP: 0,
   dailyXPLimit: 1000,
   lang: 'ru',
+  theme: 'dark',
   lastDate: new Date().toDateString(),
 };
 
@@ -53,7 +54,8 @@ function mergeState(saved) {
     movies:       Array.isArray(saved.movies)       ? saved.movies       : [],
     scEmbeds:     Array.isArray(saved.scEmbeds)     ? saved.scEmbeds     : [],
     scActive:     saved.scActive                    ?? null,
-    lang:         saved.lang || 'ru',
+    lang:         saved.lang   || 'ru',
+    theme:        saved.theme  || 'dark',
   };
 }
 

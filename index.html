@@ -15,7 +15,7 @@
   <header class="topbar">
     <div class="topbar-inner">
       <div class="logo">
-        <span class="logo-icon">🎮</span>
+        <img id="logoImg" src="" class="logo-img" alt="logo">
         <span class="logo-text">NSTP3-RPG</span>
       </div>
       <nav class="tab-nav" id="tabNav">
@@ -24,6 +24,7 @@
         <button class="tab-btn" data-tab="relax">🎬 <span data-i18n="tab_relax">Досуг</span></button>
       </nav>
       <div class="topbar-right">
+        <button class="btn-theme" id="btnTheme" onclick="window.__themeToggle()" title="Сменить тему">⚜️</button>
         <button class="btn-ghost" id="btnLang">EN</button>
         <button class="btn-ghost" id="btnExport">Экспорт</button>
         <button class="btn-ghost" id="btnImport">Импорт</button>

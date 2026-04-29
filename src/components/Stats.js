@@ -2,28 +2,38 @@ import { state, saveState } from '../state.js';
 import { ProgressBar } from '../ui/progressBar.js';
 import { update } from '../renderer.js';
 import { t } from '../i18n/translations.js';
+import { getTheme } from '../themes.js';
 
 const STAT_VARIANTS = {
   Здоровье: 'hp', Настроение: 'mood', Выносливость: 'focus', Мотивация: 'mot',
 };
-
 const STAT_I18N = {
   Здоровье: 'health', Настроение: 'mood', Выносливость: 'stamina', Мотивация: 'motivation',
 };
 
 export function renderStats() {
+  const theme = getTheme();
   return `
     <div class="card">
       <div class="card-title">${t('stats')}</div>
-      ${Object.entries(state.stats).map(([key, val]) => `
-        <div class="stat-row stat-edit" data-stat="${key}">
-          <div class="stat-label">
-            <span class="stat-name">${t(STAT_I18N[key]) || key}</span>
-            <span class="mono stat-val">${val}</span>
+      ${Object.entries(state.stats).map(([key, val]) => {
+        const iconSrc = theme.stats[key];
+        const icon = iconSrc
+          ? `<img src="${iconSrc}" class="stat-icon" alt="">`
+          : '';
+        return `
+          <div class="stat-row stat-edit" data-stat="${key}">
+            <div class="stat-label">
+              <span style="display:flex;align-items:center;gap:7px;">
+                ${icon}
+                <span class="stat-name">${t(STAT_I18N[key]) || key}</span>
+              </span>
+              <span class="mono stat-val">${val}</span>
+            </div>
+            ${ProgressBar(val, 1000, STAT_VARIANTS[key] || 'green')}
           </div>
-          ${ProgressBar(val, 1000, STAT_VARIANTS[key] || 'green')}
-        </div>
-      `).join('')}
+        `;
+      }).join('')}
     </div>
   `;
 }

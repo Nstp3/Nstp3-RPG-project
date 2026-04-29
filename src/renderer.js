@@ -3,6 +3,7 @@
 // ============================================================
 
 import { state } from './state.js';
+import { getTheme, THEMES } from './themes.js';
 import { renderProfile, bindProfile }           from './components/Profile.js';
 import { renderStats, bindStats }               from './components/Stats.js';
 import { renderTasks, bindTasks }               from './components/Tasks.js';
@@ -48,13 +49,18 @@ export function render() {
   const app = document.getElementById('app');
   if (!app) return;
 
-  // Topbar: язык и кнопки
+  // Topbar: язык, кнопки, логотип
   const btnLang   = document.getElementById('btnLang');
   const btnExport = document.getElementById('btnExport');
   const btnImport = document.getElementById('btnImport');
+  const btnTheme  = document.getElementById('btnTheme');
+  const logoImg   = document.getElementById('logoImg');
   if (btnLang)   btnLang.textContent   = t('lang');
   if (btnExport) btnExport.textContent = t('export');
   if (btnImport) btnImport.textContent = t('import');
+  const theme = getTheme();
+  if (btnTheme)  btnTheme.textContent  = THEMES[theme.next]?.label ?? '⚜️';
+  if (logoImg && theme.logo) logoImg.src = theme.logo;
 
   // Вкладки: один раз байндим, всегда обновляем стиль
   initTabs();
