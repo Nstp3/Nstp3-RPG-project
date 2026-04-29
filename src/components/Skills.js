@@ -1,13 +1,13 @@
 import { state, saveState } from '../state.js';
 import { ProgressBar } from '../ui/progressBar.js';
 import { update } from '../renderer.js';
-import { t } from '../i18n/translations.js';
+import { t, tSkill } from '../i18n/translations.js';
 
 let radarChart = null;
 
 export function renderRadarCard() {
   return `
-    <div class="card" style="width:230px; height:245px; padding:8px; flex-shrink:0;">
+    <div class="card" style="width:230px;height:245px;padding:8px;flex-shrink:0;">
       <div class="card-title">${t('radar')}</div>
       <canvas id="radarChart"></canvas>
     </div>
@@ -22,7 +22,7 @@ export function renderSkillsList() {
       <div class="skill-list">
         ${Object.entries(state.skills).map(([key, val]) => `
           <div class="skill-row skill-edit" data-key="${key}">
-            <span class="skill-name">${key}</span>
+            <span class="skill-name">${tSkill(key)}</span>
             <div class="skill-bar-wrap">${ProgressBar(val, maxVal, 'green')}</div>
             <span class="mono skill-val">${val}</span>
           </div>
@@ -36,7 +36,7 @@ export function bindSkills() {
   document.querySelectorAll('.skill-edit').forEach(el => {
     el.addEventListener('click', () => {
       const key = el.dataset.key;
-      const val = prompt(`${key}:`, state.skills[key]);
+      const val = prompt(`${tSkill(key)}:`, state.skills[key]);
       if (val === null) return;
       const n = Math.max(0, +val);
       if (!isNaN(n)) { state.skills[key] = n; saveState(); update(); }
@@ -51,7 +51,7 @@ export function renderRadarChart() {
   radarChart = new Chart(ctx, {
     type: 'radar',
     data: {
-      labels: Object.keys(state.skills),
+      labels: Object.keys(state.skills).map(k => tSkill(k)),
       datasets: [{
         label: t('skills'),
         data: Object.values(state.skills),

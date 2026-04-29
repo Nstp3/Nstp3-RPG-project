@@ -1,7 +1,7 @@
 import { state } from '../state.js';
 import { addTask, deleteTask, toggleTask } from '../tasks.js';
 import { update } from '../renderer.js';
-import { t } from '../i18n/translations.js';
+import { t, tSkill } from '../i18n/translations.js';
 
 const SKILL_KEYS = ['Тело','Разум','Продуктивность','Развлечения','Быт','Отдых'];
 

@@ -1,16 +1,22 @@
 import { state } from '../state.js';
 import { update } from '../renderer.js';
-import { t } from '../i18n/translations.js';
+import { t, tSkill } from '../i18n/translations.js';
 
 const SKILL_KEYS = ['Тело','Разум','Продуктивность','Развлечения','Быт','Отдых'];
 let historyFilter = 'all';
 
+const catColors = {
+  'Тело':'cat-physical','Разум':'cat-psyche','Продуктивность':'cat-intel',
+  'Развлечения':'cat-shop','Быт':'cat-home','Отдых':'cat-other',
+};
+
 export function renderTaskHistory() {
-  const history = state.taskHistory || [];
+  const history  = state.taskHistory || [];
   const filtered = historyFilter === 'all'
     ? history
     : history.filter(h => h.category === historyFilter);
 
+  // Группировка по дате, свежие сверху
   const byDate = {};
   [...filtered].reverse().forEach(task => {
     const date = new Date(task.completedAt).toLocaleDateString(
@@ -20,11 +26,6 @@ export function renderTaskHistory() {
     if (!byDate[date]) byDate[date] = [];
     byDate[date].push(task);
   });
-
-  const catColors = {
-    'Тело':'cat-physical','Разум':'cat-psyche','Продуктивность':'cat-intel',
-    'Развлечения':'cat-shop','Быт':'cat-home','Отдых':'cat-other',
-  };
 
   return `
     <div class="card">
@@ -41,7 +42,7 @@ export function renderTaskHistory() {
             background:${historyFilter === k ? 'var(--green)' : 'var(--bg4)'};
             color:${historyFilter === k ? '#000' : 'var(--text2)'};
             border:none;border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer;">
-            ${k}
+            ${tSkill(k)}
           </button>
         `).join('')}
       </div>
@@ -54,7 +55,7 @@ export function renderTaskHistory() {
                 <div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--bg3);">
                   <span style="color:var(--green);font-size:13px;">✓</span>
                   <span style="flex:1;font-size:13px;color:var(--text);">${task.text}</span>
-                  <span class="task-cat ${catColors[task.category]||'cat-other'}" style="font-size:10px;">${task.category}</span>
+                  <span class="task-cat ${catColors[task.category]||'cat-other'}" style="font-size:10px;">${tSkill(task.category)}</span>
                 </div>
               `).join('')}
             </div>

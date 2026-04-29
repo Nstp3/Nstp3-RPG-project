@@ -39,7 +39,7 @@ export function addXP(amount) {
       state.profile.xp -= needed;
       state.profile.level++;
       result.levelUp = true;
-      showToast(`Уровень ${state.profile.level}! 🎉`, 'success');
+      showToast(`${t('level_up')} ${state.profile.level}! 🎉`, 'success');
     } else break;
   }
 
@@ -47,7 +47,7 @@ export function addXP(amount) {
   while (state.profile.level > 1 && state.profile.xp < 0) {
     state.profile.level--;
     state.profile.xp += xpForLevel(state.profile.level);
-    showToast(`Уровень ${state.profile.level}`, 'warn');
+    showToast(`${t('level_down')} ${state.profile.level}`, 'warn');
   }
 
   if (state.profile.xp < 0) state.profile.xp = 0;

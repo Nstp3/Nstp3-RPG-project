@@ -3,6 +3,7 @@
 // ============================================================
 
 import { state, saveState } from './state.js';
+import { tSkill } from './i18n/translations.js';
 import { addXP, XP_PER_TASK } from './xp.js';
 import { incrementLog, decrementLog } from './logger.js';
 import { showToast } from './ui/toast.js';
@@ -74,7 +75,7 @@ export function toggleTask(id) {
         category: task.category,
         completedAt: new Date().toISOString(),
       });
-      showToast(`+${XP_PER_TASK} XP · ${task.category} +5`, 'xp');
+      showToast(`+${XP_PER_TASK} XP · ${tSkill(task.category)} +5`, 'xp');
     }
   } else {
     addXP(-XP_PER_TASK);

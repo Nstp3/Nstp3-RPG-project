@@ -233,7 +233,7 @@
 
 .skill-row {
   display: grid;
-  grid-template-columns: 70px 1fr 38px;
+  grid-template-columns: 110px 1fr 38px;
   align-items: center;
   gap: 8px;
   cursor: pointer;

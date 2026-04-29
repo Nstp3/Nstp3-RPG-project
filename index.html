@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Life RPG Dashboard</title>
+  <title>Nstp3-RPG</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="src/styles/base.css" />
@@ -13,11 +13,14 @@
 <body>
 
   <header class="topbar">
-    <div class="logo">⚔️ LIFE RPG</div>
+    <div class="logo">
+      <span class="logo-icon">🎮</span>
+      <span class="logo-text">NSTP3-RPG</span>
+    </div>
     <nav class="tab-nav" id="tabNav">
       <button class="tab-btn tab-btn--active" data-tab="home">🏠 <span data-i18n="tab_home">Главная</span></button>
       <button class="tab-btn" data-tab="tasks">📓 <span data-i18n="tab_tasks">Задачи</span></button>
-      <button class="tab-btn" data-tab="relax">🎮 <span data-i18n="tab_relax">Досуг</span></button>
+      <button class="tab-btn" data-tab="relax">🎬 <span data-i18n="tab_relax">Досуг</span></button>
     </nav>
     <div class="topbar-right">
       <button class="btn-ghost" id="btnLang">EN</button>
@@ -27,7 +30,6 @@
   </header>
 
   <main id="app" class="container"></main>
-
   <div id="toast" class="toast hidden"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>

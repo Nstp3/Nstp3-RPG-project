@@ -1,3 +1,4 @@
+import { t } from './i18n/translations.js';
 import { state, saveState, exportJSON, importJSON } from './state.js';
 import { render } from './renderer.js';
 import { setI18nState } from './i18n/translations.js';
@@ -21,7 +22,7 @@ document.getElementById('btnImport')?.addEventListener('click', () => {
     const reader = new FileReader();
     reader.onload = ev => {
       try { importJSON(ev.target.result); render(); }
-      catch { alert('Ошибка импорта — невалидный JSON'); }
+      catch { alert(t('import_error')); }
     };
     reader.readAsText(file);
   };
