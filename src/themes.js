@@ -52,7 +52,7 @@ export const THEMES = {
   // ── Assassin's Creed (пергамент) ─────────────────────────
   ac: {
     label:  '🌑',
-    next:   'dark',    // только 2 темы сейчас; добавь 'mythic' когда будет готова
+    next:   'mythic',
     bodyClass: 'ac',
 
     logo:  ICONS['ic-ac-logo'],
@@ -87,6 +87,39 @@ export const THEMES = {
     radarGrid:   'rgba(101,67,33,0.15)',
     radarLabels: '#8b6f47',
     radarFont:   'Cinzel',
+  },
+
+  // ── Mythic (тёмно-фиолетовая, Solo Leveling) ─────────────
+  mythic: {
+    label:  '⚜️',
+    next:   'dark',
+    bodyClass: 'mythic',
+
+    logo:  ICONS['ic-m-logo'],
+    radar: ICONS['ic-dark-radar'],   // переиспользуем — подходит по стилю
+
+    stats: {
+      'Здоровье':     ICONS['ic-m-stat-hp'],
+      'Настроение':   ICONS['ic-m-stat-mood'],
+      'Выносливость': ICONS['ic-m-stat-end'],
+      'Мотивация':    ICONS['ic-m-stat-mot'],
+    },
+
+    skills: {},  // без иконок в блоке навыков
+
+    skillColors: {
+      'Тело':           '#7c3aed',
+      'Разум':          '#6d28d9',
+      'Продуктивность': '#8b5cf6',
+      'Развлечения':    '#a78bfa',
+      'Быт':            '#5b21b6',
+      'Отдых':          '#4c1d95',
+    },
+    radarBorder: 'rgba(167,139,250,0.7)',
+    radarFill:   'rgba(124,58,237,0.12)',
+    radarGrid:   'rgba(167,139,250,0.08)',
+    radarLabels: '#a78bfa',
+    radarFont:   'Space Mono',
   },
 
   // ── Шаблон для новой темы (раскомментируй и заполни) ─────

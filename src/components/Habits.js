@@ -74,21 +74,29 @@ export function bindHabits() {
   });
 
   let dragState = null;
-  const getSquares = hi => [...document.querySelectorAll(`.habit-sq[data-hi="${hi}"]`)];
 
-  // Удаляем предыдущий mouseup-обработчик перед добавлением нового
-  // (bindHabits вызывается при каждом render — без этого обработчики накапливались бы)
-  if (window.__habitsMouseUp) {
-    document.removeEventListener('mouseup', window.__habitsMouseUp);
+  // Cleanup старых обработчиков документа
+  if (window.__habitsMouseUp)    document.removeEventListener('pointerup',   window.__habitsMouseUp);
+  if (window.__habitsMouseMove)  document.removeEventListener('pointermove', window.__habitsMouseMove);
+
+  function getSquares(hi) {
+    return [...document.querySelectorAll(`.habit-sq[data-hi="${hi}"]`)];
   }
 
   function previewDrag(hi, startDay, endDay) {
     const min = Math.min(startDay, endDay), max = Math.max(startDay, endDay);
     const habit = state.habits[hi];
     getSquares(hi).forEach(sq => {
-      const day = +sq.dataset.day, done = (habit.done||[]).includes(day), inRange = day >= min && day <= max;
-      if (inRange) { sq.style.background = dragState.mode === 'remove' ? 'var(--bg4)' : 'var(--green)'; sq.style.opacity = '1'; }
-      else { sq.style.background = done ? 'var(--green)' : 'var(--bg4)'; sq.style.opacity = day > todayDay() ? '0.3' : '1'; }
+      const day = +sq.dataset.day;
+      const done = (habit.done||[]).includes(day);
+      const inRange = day >= min && day <= max;
+      if (inRange) {
+        sq.style.background = dragState.mode === 'remove' ? 'var(--bg4)' : 'var(--green)';
+        sq.style.opacity = '1';
+      } else {
+        sq.style.background = done ? 'var(--green)' : 'var(--bg4)';
+        sq.style.opacity = day > todayDay() ? '0.3' : '1';
+      }
     });
   }
 
@@ -97,9 +105,10 @@ export function bindHabits() {
     const { hi, startDay, endDay, mode } = dragState;
     const min = Math.min(startDay, endDay), max = Math.max(startDay, endDay);
     const habit = state.habits[hi]; const today = todayDay();
+    if (!habit.done) habit.done = [];
     for (let day = min; day <= max; day++) {
       if (day > today) continue;
-      const idx = (habit.done||[]).indexOf(day);
+      const idx = habit.done.indexOf(day);
       if (mode === 'add' && idx === -1) { habit.done.push(day); addXP(XP_PER_HABIT); }
       else if (mode === 'remove' && idx !== -1) { habit.done.splice(idx, 1); addXP(-XP_PER_HABIT); }
     }
@@ -107,20 +116,36 @@ export function bindHabits() {
     saveState(); dragState = null; update();
   }
 
+  // pointerdown на каждом квадрате
   document.querySelectorAll('.habit-sq').forEach(sq => {
     const day = +sq.dataset.day, hi = +sq.dataset.hi;
     if (day > todayDay()) return;
-    sq.addEventListener('mousedown', e => {
+    sq.addEventListener('pointerdown', e => {
       e.preventDefault();
+      sq.setPointerCapture(e.pointerId);
       const done = (state.habits[hi].done||[]).includes(day);
       dragState = { hi, startDay: day, endDay: day, mode: done ? 'remove' : 'add' };
       previewDrag(hi, day, day);
     });
-    sq.addEventListener('mouseenter', () => {
-      if (!dragState || dragState.hi !== hi) return;
-      dragState.endDay = day; previewDrag(hi, dragState.startDay, day);
-    });
   });
+
+  // pointermove на документе — ищем квадрат под курсором
+  window.__habitsMouseMove = e => {
+    if (!dragState) return;
+    // найдём элемент под курсором
+    const el = document.elementFromPoint(e.clientX, e.clientY);
+    if (!el) return;
+    const sq = el.closest?.('.habit-sq') || (el.classList?.contains('habit-sq') ? el : null);
+    if (!sq) return;
+    const day = +sq.dataset.day, hi = +sq.dataset.hi;
+    if (hi !== dragState.hi || day > todayDay()) return;
+    if (day !== dragState.endDay) {
+      dragState.endDay = day;
+      previewDrag(hi, dragState.startDay, day);
+    }
+  };
+
   window.__habitsMouseUp = () => { if (dragState) commitDrag(); };
-  document.addEventListener('mouseup', window.__habitsMouseUp);
+  document.addEventListener('pointermove', window.__habitsMouseMove);
+  document.addEventListener('pointerup',   window.__habitsMouseUp);
 }

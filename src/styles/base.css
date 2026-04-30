@@ -271,3 +271,154 @@ h1, h2, h3 {
   height: 28px;
   object-fit: contain;
 }
+
+/* ── Mythic тема (тёмно-фиолетовая) ────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap');
+
+[data-theme="mythic"] {
+  --green:       #a78bfa;
+  --green2:      #8b5cf6;
+  --green-dim:   rgba(124, 58, 237, 0.15);
+  --green-glow:  rgba(167, 139, 250, 0.30);
+
+  --amber:       #c4b5fd;
+  --red:         #f472b6;
+  --blue:        #818cf8;
+  --purple:      #a78bfa;
+
+  --bg:          #07070f;
+  --bg2:         rgba(15, 10, 30, 0.88);
+  --bg3:         rgba(20, 12, 40, 0.80);
+  --bg4:         rgba(25, 15, 50, 0.70);
+
+  --border:      rgba(167, 139, 250, 0.12);
+  --border2:     rgba(167, 139, 250, 0.35);
+
+  --text:        #ede9fe;
+  --text2:       #a78bfa;
+  --text3:       #6d28d9;
+
+  --font-main:   'Rajdhani', sans-serif;
+  --font-mono:   'Space Mono', monospace;
+}
+
+/* Фоновое изображение */
+[data-theme="mythic"] body {
+  background-color: #07070f;
+  background-image: url('../assets/bg-mythic-page.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+/* Карточки */
+[data-theme="mythic"] .card {
+  background: rgba(10, 6, 25, 0.82);
+  border: 1px solid rgba(124, 58, 237, 0.20);
+  box-shadow: 0 2px 16px rgba(109, 40, 217, 0.10);
+  backdrop-filter: blur(6px);
+}
+
+[data-theme="mythic"] .card::before {
+  background: linear-gradient(90deg, transparent, rgba(167,139,250,0.25), transparent);
+}
+
+[data-theme="mythic"] .card:hover {
+  box-shadow: 0 4px 24px rgba(124, 58, 237, 0.22);
+  border-color: rgba(167, 139, 250, 0.35);
+}
+
+/* Топбар */
+[data-theme="mythic"] .topbar {
+  background: rgba(7, 7, 15, 0.95);
+  border-bottom: 1px solid rgba(124, 58, 237, 0.25);
+  backdrop-filter: blur(8px);
+}
+
+/* Прогресс-бары */
+[data-theme="mythic"] .progress { background: rgba(109, 40, 217, 0.18); }
+[data-theme="mythic"] .progress-bar--green  { background: linear-gradient(90deg, #5b21b6, #8b5cf6); }
+[data-theme="mythic"] .progress-bar--hp     { background: linear-gradient(90deg, #4c1d95, #7c3aed); }
+[data-theme="mythic"] .progress-bar--mood   { background: linear-gradient(90deg, #5b21b6, #a78bfa); }
+[data-theme="mythic"] .progress-bar--focus  { background: linear-gradient(90deg, #3730a3, #818cf8); }
+[data-theme="mythic"] .progress-bar--mot    { background: linear-gradient(90deg, #6d28d9, #c4b5fd); }
+[data-theme="mythic"] .progress-bar--skill-body { background: linear-gradient(90deg, #5b21b6, #7c3aed); }
+[data-theme="mythic"] .progress-bar--skill-mind { background: linear-gradient(90deg, #4c1d95, #6d28d9); }
+[data-theme="mythic"] .progress-bar--skill-prod { background: linear-gradient(90deg, #4338ca, #8b5cf6); }
+[data-theme="mythic"] .progress-bar--skill-fun  { background: linear-gradient(90deg, #5b21b6, #a78bfa); }
+[data-theme="mythic"] .progress-bar--skill-home { background: linear-gradient(90deg, #3730a3, #6d28d9); }
+[data-theme="mythic"] .progress-bar--skill-rest { background: linear-gradient(90deg, #4c1d95, #5b21b6); }
+
+/* Кнопки */
+[data-theme="mythic"] .btn-ghost {
+  border-color: rgba(124, 58, 237, 0.30);
+  color: #a78bfa;
+}
+[data-theme="mythic"] .btn-ghost:hover {
+  border-color: rgba(167, 139, 250, 0.60);
+  color: #c4b5fd;
+  background: rgba(124, 58, 237, 0.10);
+}
+
+[data-theme="mythic"] .btn-add {
+  background: rgba(124, 58, 237, 0.12);
+  border-color: rgba(167, 139, 250, 0.35);
+  color: #a78bfa;
+}
+[data-theme="mythic"] .btn-add:hover { background: rgba(124, 58, 237, 0.24); }
+
+[data-theme="mythic"] .btn-pom {
+  background: rgba(124, 58, 237, 0.10);
+  border-color: rgba(124, 58, 237, 0.30);
+  color: #a78bfa;
+}
+[data-theme="mythic"] .btn-pom:hover { background: rgba(124, 58, 237, 0.22); }
+
+/* Вкладки */
+[data-theme="mythic"] .tab-btn { color: #7c3aed; }
+[data-theme="mythic"] .tab-btn:hover { background: rgba(124,58,237,0.10); color: #c4b5fd; }
+[data-theme="mythic"] .tab-btn--active {
+  background: rgba(124,58,237,0.14);
+  color: #a78bfa;
+  border-bottom-color: #7c3aed;
+}
+
+/* Инпуты */
+[data-theme="mythic"] .task-input,
+[data-theme="mythic"] .task-select,
+[data-theme="mythic"] .pom-input {
+  background: rgba(20, 10, 45, 0.60);
+  border-color: rgba(124, 58, 237, 0.22);
+  color: #ede9fe;
+}
+[data-theme="mythic"] .task-input::placeholder { color: #6d28d9; }
+[data-theme="mythic"] .task-input:focus,
+[data-theme="mythic"] .pom-input:focus { border-color: rgba(167,139,250,0.50); }
+
+/* Помодоро */
+[data-theme="mythic"] .pom-time { color: #a78bfa; text-shadow: 0 0 20px rgba(124,58,237,0.6); }
+
+/* Toast */
+[data-theme="mythic"] .toast--xp {
+  background: rgba(124,58,237,0.14);
+  border-color: rgba(167,139,250,0.35);
+  color: #a78bfa;
+}
+
+/* Stat row hover */
+[data-theme="mythic"] .stat-row:hover { background: rgba(124,58,237,0.10); }
+
+/* Level badge */
+[data-theme="mythic"] .level-badge {
+  background: rgba(124,58,237,0.15);
+  border-color: rgba(167,139,250,0.35);
+  color: #a78bfa;
+}
+[data-theme="mythic"] .level-badge:hover { background: rgba(124,58,237,0.28); }
+
+/* Avatar border */
+[data-theme="mythic"] .avatar { border-color: #7c3aed; }
+
+/* Skill/stat icons */
+[data-theme="mythic"] .skill-icon,
+[data-theme="mythic"] .stat-icon { opacity: 1; filter: drop-shadow(0 0 4px rgba(124,58,237,0.5)); }

@@ -6,15 +6,21 @@ import { getTheme } from '../themes.js';
 let lineChart = null;
 
 export function renderActivityCard() {
-  // Фон активити только для AC-темы (пергамент); в тёмной — без фона
-  const isAC = document.body.dataset.theme === 'ac';
-  const bgStyle = isAC && ICONS['bg-activity']
-    ? `background-image:url('${ICONS['bg-activity']}');background-size:cover;background-position:center top;`
-    : '';
+  // Фон активити: для AC — пергамент, для mythic — нижняя часть фонового арта
+  const theme = document.body.dataset.theme;
+  const isAC = theme === 'ac';
+  const isMythic = theme === 'mythic';
+
+  let bgStyle = '';
+  if (isAC && ICONS['bg-activity']) {
+    bgStyle = `background-image:url('${ICONS['bg-activity']}');background-size:cover;background-position:center top;`;
+  } else if (isMythic && ICONS['bg-m-activity']) {
+    bgStyle = `background-image:url('${ICONS['bg-m-activity']}');background-size:cover;background-position:center bottom;`;
+  }
 
   return `
     <div class="card" style="flex:1;min-width:0;display:flex;flex-direction:column;${bgStyle}">
-      <div class="card-title" style="${isAC ? 'text-shadow:0 1px 3px rgba(255,252,240,0.8);' : ''}">${t('activity')}</div>
+      <div class="card-title" style="${isAC ? 'text-shadow:0 1px 3px rgba(255,252,240,0.8);' : isMythic ? 'text-shadow:0 0 8px rgba(124,58,237,0.7);' : ''}">${t('activity')}</div>
       <div style="flex:1;position:relative;min-height:160px;">
         <canvas id="lineChart" style="position:absolute;inset:0;width:100%!important;height:100%!important;"></canvas>
       </div>
@@ -27,11 +33,14 @@ export function renderLineChart() {
   if (!ctx || typeof Chart === 'undefined') return;
   if (lineChart) lineChart.destroy();
 
-  const isAC      = document.body.dataset.theme === 'ac';
-  const lineColor = isAC ? '#8b1a1a' : '#00e676';
-  const fillColor = isAC ? 'rgba(139,26,26,0.12)' : 'rgba(0,230,118,0.08)';
-  const gridColor = isAC ? 'rgba(101,67,33,0.12)' : 'rgba(255,255,255,0.04)';
-  const tickColor = isAC ? '#8b6f47' : '#484f58';
+  const theme      = document.body.dataset.theme;
+  const isAC       = theme === 'ac';
+  const isMythic   = theme === 'mythic';
+
+  const lineColor = isAC ? '#8b1a1a' : isMythic ? '#a78bfa' : '#00e676';
+  const fillColor = isAC ? 'rgba(139,26,26,0.12)' : isMythic ? 'rgba(124,58,237,0.15)' : 'rgba(0,230,118,0.08)';
+  const gridColor = isAC ? 'rgba(101,67,33,0.12)' : isMythic ? 'rgba(124,58,237,0.08)' : 'rgba(255,255,255,0.04)';
+  const tickColor = isAC ? '#8b6f47' : isMythic ? '#7c3aed' : '#484f58';
   const tickFont  = isAC ? 'Cinzel' : 'Space Mono';
 
   const logs = state.logs.slice(-14);
