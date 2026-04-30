@@ -240,20 +240,24 @@
 .skill-list { display: flex; flex-direction: column; gap: 6px; }
 
 .skill-row {
-  display: grid;
-  grid-template-columns: 110px 1fr 38px;
-  align-items: center;
-  gap: 8px;
   cursor: pointer;
   border-radius: var(--radius-sm);
   padding: 4px 5px;
   transition: background 0.2s;
+  display: contents;
 }
 .skill-row:hover { background: var(--bg3); }
 
 .skill-name { font-size: 11px; color: var(--text2); letter-spacing: 1px; }
 .skill-val  { font-size: 11px; text-align: right; }
 .skill-bar-wrap .progress { height: 4px; }
+
+.skill-list {
+  display: grid;
+  grid-template-columns: auto 1fr 38px;
+  gap: 8px 12px; /* row gap, column gap */
+  align-items: center;
+}
 
 /* ── Directions ─────────────────────────────────────────── */
 .dir-card {

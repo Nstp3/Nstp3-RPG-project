@@ -43,7 +43,7 @@ export function renderHabits() {
                   const done = (h.done||[]).includes(day);
                   const future = day > today;
                   const isToday = day === today;
-                  return `<div class="habit-sq" data-hi="${hi}" data-day="${day}" style="height:14px;border-radius:2px;cursor:${future?'default':'pointer'};background:${done?'#1D9E75':'var(--bg4)'};${isToday?'outline:1.5px solid #378ADD;outline-offset:1px;':''}${future?'opacity:0.3;':''}" title="${t('habit_day_title')} ${day}"></div>`;
+                  return `<div class="habit-sq" data-hi="${hi}" data-day="${day}" style="height:14px;border-radius:2px;cursor:${future?'default':'pointer'};background:${done?'var(--green)':'var(--bg4)'};${isToday?'outline:1.5px solid #378ADD;outline-offset:1px;':''}${future?'opacity:0.3;':''}" title="${t('habit_day_title')} ${day}"></div>`;
                 }).join('')}
               </div>
             </div>
@@ -87,8 +87,8 @@ export function bindHabits() {
     const habit = state.habits[hi];
     getSquares(hi).forEach(sq => {
       const day = +sq.dataset.day, done = (habit.done||[]).includes(day), inRange = day >= min && day <= max;
-      if (inRange) { sq.style.background = dragState.mode === 'remove' ? 'var(--bg4)' : '#1D9E75'; sq.style.opacity = '1'; }
-      else { sq.style.background = done ? '#1D9E75' : 'var(--bg4)'; sq.style.opacity = day > todayDay() ? '0.3' : '1'; }
+      if (inRange) { sq.style.background = dragState.mode === 'remove' ? 'var(--bg4)' : 'var(--green)'; sq.style.opacity = '1'; }
+      else { sq.style.background = done ? 'var(--green)' : 'var(--bg4)'; sq.style.opacity = day > todayDay() ? '0.3' : '1'; }
     });
   }
 
