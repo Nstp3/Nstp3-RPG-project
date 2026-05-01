@@ -1,4 +1,4 @@
-![Preview](./<img width="1664" height="928" alt="превьюGitHub" src="https://github.com/user-attachments/assets/66a854ef-4951-48a8-b6c8-a37814f687c8" />
+<img width="1664" height="928" alt="превьюGitHub" src="https://github.com/user-attachments/assets/66a854ef-4951-48a8-b6c8-a37814f687c8" />
 )
 # ⚔️ Nstp3-RPG — Ежедневник с элементами геймефикации
 
