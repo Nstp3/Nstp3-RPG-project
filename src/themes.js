@@ -7,45 +7,36 @@ export const THEMES = {
 
   // ── Тёмная (по умолчанию) ────────────────────────────────
   dark: {
-    label:  '⚜️',       // иконка кнопки переключения
-    next:   'ac',       // следующая тема при клике
-    bodyClass: '',      // data-theme на body
+    label:  '🌊',
+    next:   'ac',
+    bodyClass: '',
 
-    // Иконки логотипа и радара
-    logo:  ICONS['ic-dark-logo'],
+    logo:  ICONS['ic-dark-logo-new'],
     radar: ICONS['ic-dark-radar'],
 
-    // Иконки статов
+    // Статы — эмодзи вместо иконок
     stats: {
-      'Здоровье':     ICONS['ic-dark-stat-hp'],
-      'Настроение':   ICONS['ic-dark-stat-mood'],
-      'Выносливость': ICONS['ic-dark-stat-end'],
-      'Мотивация':    ICONS['ic-dark-stat-mot'],
+      'Здоровье':     '❤️',
+      'Настроение':   '😊',
+      'Выносливость': '⚡',
+      'Мотивация':    '🔥',
     },
 
-    // Иконки навыков
-    skills: {
-      'Тело':           ICONS['ic-dark-skill-body'],
-      'Разум':          ICONS['ic-dark-skill-mind'],
-      'Продуктивность': ICONS['ic-dark-skill-prod'],
-      'Развлечения':    ICONS['ic-dark-skill-fun'],
-      'Быт':            ICONS['ic-dark-skill-home'],
-      'Отдых':          ICONS['ic-dark-skill-rest'],
-    },
+    // Навыки — без иконок
+    skills: {},
 
-    // Цвета прогресс-баров навыков и радара
     skillColors: {
-      'Тело':           '#ef5350',
-      'Разум':          '#ab47bc',
-      'Продуктивность': '#42a5f5',
-      'Развлечения':    '#66bb6a',
-      'Быт':            '#ffa726',
-      'Отдых':          '#78909c',
+      'Тело':           '#6e8fd4',
+      'Разум':          '#9b8fea',
+      'Продуктивность': '#7eb8f5',
+      'Развлечения':    '#72c9a0',
+      'Быт':            '#f0a36b',
+      'Отдых':          '#8fa8c8',
     },
-    radarBorder: 'rgba(0,230,118,0.6)',
-    radarFill:   'rgba(0,230,118,0.07)',
-    radarGrid:   'rgba(255,255,255,0.06)',
-    radarLabels: '#7d8590',
+    radarBorder: 'rgba(197, 213, 253, 0.65)',
+    radarFill:   'rgba(69, 91, 178, 0.12)',
+    radarGrid:   'rgba(205, 211, 253, 0.07)',
+    radarLabels: '#8a9cc8',
     radarFont:   'Space Mono',
   },
 

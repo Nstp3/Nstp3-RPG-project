@@ -24,7 +24,25 @@
         <button class="tab-btn" data-tab="relax">🎬 <span data-i18n="tab_relax">Досуг</span></button>
       </nav>
       <div class="topbar-right">
-        <button class="btn-theme" id="btnTheme" onclick="window.__themeToggle()" title="Сменить тему">⚜️</button>
+        <div class="theme-switcher" id="themeSwitcher">
+          <button class="btn-theme" id="btnTheme" title="Сменить тему">
+            <img id="themeIconImg" src="" style="width:22px;height:22px;object-fit:contain;display:block;" alt="">
+          </button>
+          <div class="theme-dropdown" id="themeDropdown">
+            <button class="theme-option" data-theme="dark">
+              <img class="theme-opt-img" data-key="ic-theme-dark" src="" style="width:26px;height:26px;object-fit:contain;" alt="">
+              <span>Стандартная</span>
+            </button>
+            <button class="theme-option" data-theme="ac">
+              <img class="theme-opt-img" data-key="ic-theme-ac" src="" style="width:26px;height:26px;object-fit:contain;" alt="">
+              <span>Assassin</span>
+            </button>
+            <button class="theme-option" data-theme="mythic">
+              <img class="theme-opt-img" data-key="ic-theme-mythic" src="" style="width:26px;height:26px;object-fit:contain;" alt="">
+              <span>SoloLeveling</span>
+            </button>
+          </div>
+        </div>
         <button class="btn-ghost" id="btnLang">EN</button>
         <button class="btn-ghost" id="btnExport">Экспорт</button>
         <button class="btn-ghost" id="btnImport">Импорт</button>

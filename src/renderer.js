@@ -53,13 +53,11 @@ export function render() {
   const btnLang   = document.getElementById('btnLang');
   const btnExport = document.getElementById('btnExport');
   const btnImport = document.getElementById('btnImport');
-  const btnTheme  = document.getElementById('btnTheme');
   const logoImg   = document.getElementById('logoImg');
   if (btnLang)   btnLang.textContent   = t('lang');
   if (btnExport) btnExport.textContent = t('export');
   if (btnImport) btnImport.textContent = t('import');
   const theme = getTheme();
-  if (btnTheme)  btnTheme.textContent  = THEMES[theme.next]?.label ?? '⚜️';
   if (logoImg && theme.logo) logoImg.src = theme.logo;
 
   // Вкладки: один раз байндим, всегда обновляем стиль

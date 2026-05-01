@@ -11,16 +11,22 @@ const STAT_I18N = {
   Здоровье: 'health', Настроение: 'mood', Выносливость: 'stamina', Мотивация: 'motivation',
 };
 
+// Если значение — data-uri или http(s) → рисуем <img>, иначе — эмодзи в <span>
+function renderStatIcon(value) {
+  if (!value) return '';
+  if (value.startsWith('data:') || value.startsWith('http')) {
+    return `<img src="${value}" class="stat-icon" alt="">`;
+  }
+  return `<span class="stat-emoji">${value}</span>`;
+}
+
 export function renderStats() {
   const theme = getTheme();
   return `
     <div class="card">
       <div class="card-title">${t('stats')}</div>
       ${Object.entries(state.stats).map(([key, val]) => {
-        const iconSrc = theme.stats[key];
-        const icon = iconSrc
-          ? `<img src="${iconSrc}" class="stat-icon" alt="">`
-          : '';
+        const icon = renderStatIcon(theme.stats[key]);
         return `
           <div class="stat-row stat-edit" data-stat="${key}">
             <div class="stat-label">

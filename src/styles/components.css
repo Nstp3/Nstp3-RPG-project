@@ -101,19 +101,19 @@
 }
 
 .progress-bar--green  { background: linear-gradient(90deg, var(--green2), var(--green)); }
-.progress-bar--amber  { background: linear-gradient(90deg, #e65100, var(--amber)); }
-.progress-bar--hp     { background: linear-gradient(90deg, #b71c1c, #ef5350); }
-.progress-bar--mood   { background: linear-gradient(90deg, #6a1b9a, var(--purple)); }
-.progress-bar--focus  { background: linear-gradient(90deg, #0277bd, var(--blue)); }
-.progress-bar--mot    { background: linear-gradient(90deg, #e65100, var(--amber)); }
+.progress-bar--amber  { background: linear-gradient(90deg, #c07840, var(--amber)); }
+.progress-bar--hp     { background: linear-gradient(90deg, #2e4369, #f47272); }
+.progress-bar--mood   { background: linear-gradient(90deg, #2e4369, #9b8fea); }
+.progress-bar--focus  { background: linear-gradient(90deg, #2e4369, #7eb8f5); }
+.progress-bar--mot    { background: linear-gradient(90deg, #2e4369, #f0a36b); }
 
 /* ── Skill bar colors (по типу навыка) ──────────────────── */
-.progress-bar--skill-body { background: linear-gradient(90deg, #b71c1c, #ef5350); }   /* Тело — красный */
-.progress-bar--skill-mind { background: linear-gradient(90deg, #6a1b9a, #ab47bc); }   /* Разум — фиолетовый */
-.progress-bar--skill-prod { background: linear-gradient(90deg, #0277bd, #42a5f5); }   /* Продуктивность — синий */
-.progress-bar--skill-fun  { background: linear-gradient(90deg, #2e7d32, #66bb6a); }   /* Развлечения — зелёный */
-.progress-bar--skill-home { background: linear-gradient(90deg, #e65100, #ffa726); }   /* Быт — янтарный */
-.progress-bar--skill-rest { background: linear-gradient(90deg, #37474f, #78909c); }   /* Отдых — серо-синий */
+.progress-bar--skill-body { background: linear-gradient(90deg, #2e4369, #6e8fd4); }
+.progress-bar--skill-mind { background: linear-gradient(90deg, #2e4369, #9b8fea); }
+.progress-bar--skill-prod { background: linear-gradient(90deg, #2e4369, #7eb8f5); }
+.progress-bar--skill-fun  { background: linear-gradient(90deg, #2e4369, #72c9a0); }
+.progress-bar--skill-home { background: linear-gradient(90deg, #2e4369, #f0a36b); }
+.progress-bar--skill-rest { background: linear-gradient(90deg, #2e4369, #8fa8c8); }
 
 /* ── Stats ──────────────────────────────────────────────── */
 .stat-row {

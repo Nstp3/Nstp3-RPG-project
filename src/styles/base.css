@@ -6,27 +6,27 @@
 
 /* ── CSS-переменные ─────────────────────────────────────── */
 :root {
-  --green:       #00e676;
-  --green2:      #00c853;
-  --green-dim:   rgba(0, 230, 118, 0.12);
-  --green-glow:  rgba(0, 230, 118, 0.25);
+  --green:       #cdd3fd;
+  --green2:      #455bb2;
+  --green-dim:   rgba(69, 91, 178, 0.15);
+  --green-glow:  rgba(205, 211, 253, 0.20);
 
-  --amber:       #ffa726;
-  --red:         #ff4d67;
-  --blue:        #42a5f5;
-  --purple:      #ab47bc;
+  --amber:       #f0a36b;
+  --red:         #f47272;
+  --blue:        #7eb8f5;
+  --purple:      #9b8fea;
 
-  --bg:          #0d1117;
-  --bg2:         #161b22;
-  --bg3:         #1c2330;
-  --bg4:         #21262d;
+  --bg:          #0b0f1e;
+  --bg2:         #111829;
+  --bg3:         #1a2340;
+  --bg4:         #2e4369;
 
-  --border:      rgba(255, 255, 255, 0.07);
-  --border2:     rgba(0, 230, 118, 0.25);
+  --border:      rgba(69, 91, 178, 0.18);
+  --border2:     rgba(205, 211, 253, 0.25);
 
-  --text:        #e6edf3;
-  --text2:       #7d8590;
-  --text3:       #484f58;
+  --text:        #cdd3fd;
+  --text2:       #8a9cc8;
+  --text3:       #455bb2;
 
   --radius:      10px;
   --radius-sm:   6px;
@@ -240,19 +240,101 @@ h1, h2, h3 {
   border-radius: var(--radius-sm);
   color: var(--text2);
   font-size: 16px;
-  width: 32px;
-  height: 30px;
+  width: 34px;
+  height: 34px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: 0.2s;
-  line-height: 1;
+  padding: 4px;
 }
 .btn-theme:hover {
   border-color: var(--border2);
   background: var(--green-dim);
 }
+
+/* ── Dropdown выбора темы ────────────────────────────────── */
+.theme-switcher {
+  position: relative;
+}
+
+.theme-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  z-index: 100;
+  min-width: 150px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  animation: dropdownIn 0.15s ease;
+}
+
+.theme-dropdown--open {
+  display: block;
+}
+
+@keyframes dropdownIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.theme-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  color: var(--text2);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+.theme-option:hover {
+  background: var(--green-dim);
+  color: var(--text);
+}
+.theme-option--active {
+  color: var(--green);
+  background: var(--green-dim);
+}
+.theme-option-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* AC тема — стили dropdown */
+[data-theme="ac"] .theme-dropdown {
+  background: rgba(245, 238, 220, 0.97);
+  border-color: rgba(139, 26, 26, 0.35);
+  box-shadow: 0 8px 24px rgba(60,30,10,0.25);
+}
+[data-theme="ac"] .theme-option { color: #5c3d1e; }
+[data-theme="ac"] .theme-option:hover { background: rgba(139,26,26,0.08); color: #2a1a0e; }
+[data-theme="ac"] .theme-option--active { background: rgba(139,26,26,0.12); color: #8b1a1a; }
+
+/* Mythic тема — стили dropdown */
+[data-theme="mythic"] .theme-dropdown {
+  background: rgba(10, 6, 25, 0.97);
+  border-color: rgba(167, 139, 250, 0.35);
+  box-shadow: 0 8px 24px rgba(109,40,217,0.3);
+}
+[data-theme="mythic"] .theme-option { color: #a78bfa; }
+[data-theme="mythic"] .theme-option:hover { background: rgba(124,58,237,0.12); color: #c4b5fd; }
+[data-theme="mythic"] .theme-option--active { background: rgba(124,58,237,0.15); color: #c4b5fd; }
 
 /* Иконки навыков / статов */
 .skill-icon, .stat-icon {
@@ -264,6 +346,15 @@ h1, h2, h3 {
 }
 [data-theme="ac"] .skill-icon,
 [data-theme="ac"] .stat-icon { opacity: 1; }
+
+/* Эмодзи в блоке статов */
+.stat-emoji {
+  font-size: 16px;
+  line-height: 1;
+  flex-shrink: 0;
+  width: 22px;
+  text-align: center;
+}
 
 /* Логотип */
 .logo-img {
