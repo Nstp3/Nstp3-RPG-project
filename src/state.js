@@ -1,8 +1,10 @@
 // ============================================================
-// state.js — единый источник правды
+// state.js — единый источник правды (IndexedDB)
 // ============================================================
 
-const STORAGE_KEY = 'life_rpg_v2';
+import { dbGet, dbSet } from './db.js';
+
+const STORAGE_KEY = 'life_rpg_v2';   // старый ключ localStorage (для миграции)
 
 export const defaultState = {
   profile: {
@@ -12,31 +14,31 @@ export const defaultState = {
     xp: 0,
   },
   stats: {
-    Здоровье: 500,
-    Настроение: 500,
+    Здоровье:     500,
+    Настроение:   500,
     Выносливость: 500,
-    Мотивация: 500,
+    Мотивация:    500,
   },
   skills: {
-    'Тело': 50,
-    'Разум': 40,
+    'Тело':           50,
+    'Разум':          40,
     'Продуктивность': 30,
-    'Развлечения': 45,
-    'Быт': 35,
-    'Отдых': 55,
+    'Развлечения':    45,
+    'Быт':            35,
+    'Отдых':          55,
   },
-  tasks: [],          // активные задачи
-  taskHistory: [],    // выполненные: { id, text, category, completedAt }
-  logs: [],           // [{ date, value }] для activity chart
-  habits: [],
-  movies: [],         // [{ id, title, poster, status }]
-  scEmbeds: [],       // [{ id, url, title }] — SoundCloud эмбеды
-  scActive: null,     // id активного SoundCloud эмбеда
-  dailyXP: 0,
+  tasks:        [],
+  taskHistory:  [],
+  logs:         [],
+  habits:       [],
+  movies:       [],
+  scEmbeds:     [],
+  scActive:     null,
+  dailyXP:      0,
   dailyXPLimit: 1000,
-  lang: 'ru',
-  theme: 'dark',
-  lastDate: new Date().toDateString(),
+  lang:         'ru',
+  theme:        'dark',
+  lastDate:     new Date().toDateString(),
 };
 
 function mergeState(saved) {
@@ -44,48 +46,76 @@ function mergeState(saved) {
   return {
     ...defaultState,
     ...saved,
-    profile:      { ...defaultState.profile,  ...saved.profile },
-    stats:        { ...defaultState.stats,     ...saved.stats },
-    skills:       { ...defaultState.skills },
-    tasks:        Array.isArray(saved.tasks)        ? saved.tasks        : [],
-    taskHistory:  Array.isArray(saved.taskHistory)  ? saved.taskHistory  : [],
-    logs:         Array.isArray(saved.logs)         ? saved.logs         : [],
-    habits:       Array.isArray(saved.habits)       ? saved.habits       : [],
-    movies:       Array.isArray(saved.movies)       ? saved.movies       : [],
-    scEmbeds:     Array.isArray(saved.scEmbeds)     ? saved.scEmbeds     : [],
-    scActive:     saved.scActive                    ?? null,
-    lang:         saved.lang   || 'ru',
-    theme:        saved.theme  || 'dark',
+    profile:     { ...defaultState.profile,  ...saved.profile },
+    stats:       { ...defaultState.stats,     ...saved.stats },
+    skills:      { ...defaultState.skills },
+    tasks:       Array.isArray(saved.tasks)       ? saved.tasks       : [],
+    taskHistory: Array.isArray(saved.taskHistory) ? saved.taskHistory : [],
+    logs:        Array.isArray(saved.logs)        ? saved.logs        : [],
+    habits:      Array.isArray(saved.habits)      ? saved.habits      : [],
+    movies:      Array.isArray(saved.movies)      ? saved.movies      : [],
+    scEmbeds:    Array.isArray(saved.scEmbeds)    ? saved.scEmbeds    : [],
+    scActive:    saved.scActive ?? null,
+    lang:        saved.lang    || 'ru',
+    theme:       saved.theme   || 'dark',
   };
 }
 
-function loadFromStorage() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)); }
-  catch { return null; }
-}
+// Переменная стейта — заполняется в initState()
+export let state = structuredClone(defaultState);
 
-export let state = mergeState(loadFromStorage());
-
-// Сброс при новом дне
-const today = new Date().toDateString();
-if (state.lastDate !== today) {
-  state.dailyXP  = 0;
-  state.lastDate = today;
-  state.stats = { Здоровье: 500, Настроение: 500, Выносливость: 500, Мотивация: 500 };
-
-  // Повторяющаяся задача "Отдых 1 час" каждый день
-  const hasRestTask = state.tasks.some(t => t.recurring && t.text === 'Отдых 1 час');
-  if (!hasRestTask) {
-    state.tasks.push({ id: Date.now(), text: 'Отдых 1 час', done: false, category: 'Отдых', recurring: true });
+// ── Миграция localStorage → IndexedDB ─────────────────────
+function migrateFromLocalStorage() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    localStorage.removeItem(STORAGE_KEY);
+    console.log('Migrated from localStorage → IndexedDB');
+    return parsed;
+  } catch {
+    return null;
   }
 }
 
-export function saveState() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-  catch (e) { console.warn('localStorage save failed:', e); }
+// ── Инициализация: загрузить стейт до первого render() ────
+export async function initState() {
+  let saved = await dbGet();
+
+  if (!saved) {
+    saved = migrateFromLocalStorage();
+    if (saved) await dbSet(saved);
+  }
+
+  state = mergeState(saved);
+
+  // Сброс при новом дне
+  const today = new Date().toDateString();
+  if (state.lastDate !== today) {
+    state.dailyXP  = 0;
+    state.lastDate = today;
+    state.stats    = { Здоровье: 500, Настроение: 500, Выносливость: 500, Мотивация: 500 };
+
+    const hasRestTask = state.tasks.some(t => t.recurring && t.text === 'Отдых 1 час');
+    if (!hasRestTask) {
+      state.tasks.push({
+        id: Date.now(), text: 'Отдых 1 час',
+        done: false, category: 'Отдых', recurring: true,
+      });
+    }
+    await dbSet(state);
+  }
 }
 
-export function exportJSON() { return JSON.stringify(state, null, 2); }
+// ── Сохранение ────────────────────────────────────────────
+export function saveState() {
+  dbSet(state).catch(e => console.warn('IndexedDB save failed:', e));
+}
+
+// ── Экспорт / Импорт ──────────────────────────────────────
+export function exportJSON() {
+  return JSON.stringify(state, null, 2);
+}
 
 export function importJSON(json) {
   const parsed = JSON.parse(json);

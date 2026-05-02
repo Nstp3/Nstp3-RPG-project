@@ -249,9 +249,6 @@ body::after {
   .logo { justify-self: start; }
   .topbar-right { justify-self: end; }
 
-  /* Скрываем Экспорт/Импорт на мобиле — экономим место */
-  #btnExport, #btnImport { display: none; }
-
   /* Основной контент — одна колонка, отступ снизу под nav */
   .container {
     grid-template-columns: 1fr;
