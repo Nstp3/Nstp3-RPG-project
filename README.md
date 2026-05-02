@@ -1,10 +1,12 @@
 # Nstp3-RPG — Ежедневник с элементами геймификации
 
 <div align="center">
-  <img src="readme_assets/preview.png" width="70%" alt="Десктоп">
-  <img src="readme_assets/preview-mobile.jpg" width="22%" alt="Мобильная версия">
-  <br>
-  <sub>Десктоп &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Мобильная версия</sub>
+  <table>
+    <tr>
+      <td align="center"><img src="readme_assets/preview.png" width="100%" alt="Десктоп"><br><sub>Десктоп</sub></td>
+      <td align="center" width="32%"><img src="readme_assets/preview-mobile.jpg" width="100%" alt="Мобильная версия"><br><sub>Мобильная версия</sub></td>
+    </tr>
+  </table>
 </div>
 
 > 🌐 **Живая версия:** [nstp3.github.io](https://nstp3.github.io/)
@@ -136,7 +138,7 @@ npm run dev -- --host
 ### Быстрая пересборка (одна команда)
 
 ```bash
-cd "Пусть к папке проекта  на вашем пк"\
+cd Изображения/проект\ и\ идеи\ для\ проекта/nstp3-rpg && \
 BUILD_TARGET=android npm run build && \
 rm -r ~/AndroidStudioProjects/Nstp3RPG/app/src/main/assets/* && \
 cp -r dist-android/* ~/AndroidStudioProjects/Nstp3RPG/app/src/main/assets && \
@@ -198,4 +200,3 @@ nstp3-rpg/
 ---
 
 *Прокачивай себя как персонажа* ⚔️
-
