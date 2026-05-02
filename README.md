@@ -1,6 +1,11 @@
 # Nstp3-RPG — Ежедневник с элементами геймификации
 
-![preview](readme_assets/preview.png)
+<div align="center">
+  <img src="readme_assets/preview.png" width="70%" alt="Десктоп">
+  <img src="readme_assets/preview-mobile.jpg" width="22%" alt="Мобильная версия">
+  <br>
+  <sub>Десктоп &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Мобильная версия</sub>
+</div>
 
 > 🌐 **Живая версия:** [nstp3.github.io](https://nstp3.github.io/)
 
@@ -15,9 +20,9 @@
 - **Задачи** — добавление по категориям, выполнение даёт XP
 - **Навыки** — прокачка по 6 направлениям с визуализацией прогресса
 - **Радар** — паутинка, отражающая текущий баланс навыков
-- **Привычки** — трекер по дням месяца с drag-выделением диапазона
+- **Привычки** — трекер по дням месяца с drag-выделением диапазона и подписью каждого дня
 - **Помодоро** — таймер с настройкой рабочего / перерывного времени
-- **Activity** — график активности по дням
+- **Активность** — график активности по дням
 - **3 темы** — Стандартная · Assassin's Creed · Solo Leveling
 - **Экспорт / Импорт** — бэкап прогресса в JSON
 - **Мультиязычность** — RU / EN
@@ -26,7 +31,7 @@
 
 ## 📱 Android APK
 
-Доступна нативная Android-версия в виде WebView-обёртки.
+Доступна нативная Android-версия. Работает **офлайн** — все файлы встроены в приложение.
 
 ### Скачать APK
 
@@ -66,12 +71,12 @@
 
 ## 💾 Бэкап данных
 
-Все данные хранятся в `localStorage` браузера на твоём устройстве.
+Все данные хранятся в **IndexedDB** браузера на твоём устройстве (лимит ~500 MB, данные не теряются при обновлении страницы).
 
 - **Экспорт** — кнопка «Экспорт» в топ-баре → сохранит файл `life-rpg-backup.json`
 - **Импорт** — кнопка «Импорт» → выбери сохранённый файл
 
-> ⚠️ При очистке кэша браузера данные сотрутся. Делай экспорт регулярно.
+> ⚠️ При полной очистке данных браузера / переустановке приложения данные сотрутся. Делай экспорт регулярно.
 
 Если пользуешься с нескольких устройств — экспортируй на одном, импортируй на другом.
 
@@ -79,7 +84,7 @@
 
 ## 🎨 Темы оформления
 
-Переключение — кнопка с иконкой в правом верхнем углу топ-бара.
+Переключение — кнопка с иконкой в правом верхнем углу топ-бара, выпадающий список.
 
 | | Тема | Стиль |
 |---|------|-------|
@@ -98,7 +103,7 @@
 
 ```bash
 # Перейди в папку проекта
-cd Nstp3-RPG-project
+cd nstp3-rpg
 
 # Установи зависимости
 npm install
@@ -126,29 +131,54 @@ npm run dev -- --host
 
 ---
 
+## 🤖 Сборка Android APK
+
+### Быстрая пересборка (одна команда)
+
+```bash
+cd "Пусть к папке проекта  на вашем пк"\
+BUILD_TARGET=android npm run build && \
+rm -r ~/AndroidStudioProjects/Nstp3RPG/app/src/main/assets/* && \
+cp -r dist-android/* ~/AndroidStudioProjects/Nstp3RPG/app/src/main/assets && \
+echo "✓ Готово — собирай APK в Android Studio"
+```
+
+### Затем в Android Studio
+
+**Build → Generate Signed App Bundle / APK → APK → Next**
+Выбери `nstp3key.jks` → пароль → Build Variant: **release** → **Finish**
+
+Готовый файл: `~/AndroidStudioProjects/Nstp3RPG/app/release/app-release.apk`
+
+---
+
 ## 📁 Структура проекта
 
 ```
-Nstp3-RPG-project/
+nstp3-rpg/
 ├── android_version/
-│   └── app-release.apk     # Android APK
-├── readme_icons/           # Иконки тем для README
-├── preview.png             # Превью
+│   └── app-release.apk       # Android APK (офлайн)
+├── readme_assets/            # Иконки тем для README
+│   ├── theme-dark.png
+│   ├── theme-ac.png
+│   └── theme-mythic.png
+├── preview.png               # Превью для README
 ├── index.html
 ├── package.json
 ├── vite.config.js
-├── assets/
+├── assets/                   # Фоновые изображения и иконки
 └── src/
-    ├── main.js
-    ├── renderer.js
-    ├── state.js
-    ├── themes.js
-    ├── icons.js
-    ├── xp.js
-    ├── components/
-    ├── styles/
-    ├── ui/
-    └── i18n/
+    ├── main.js               # Инициализация, темы, события
+    ├── renderer.js           # Рендер (десктоп + мобиль)
+    ├── state.js              # Стейт приложения
+    ├── db.js                 # IndexedDB обёртка
+    ├── themes.js             # Конфигурация тем
+    ├── icons.js              # Иконки в base64
+    ├── xp.js                 # Логика опыта и уровней
+    ├── components/           # Компоненты (Stats, Tasks, Habits…)
+    ├── styles/               # CSS (base, components, layout)
+    ├── ui/                   # Утилиты (toast, progressBar…)
+    └── i18n/                 # Переводы RU / EN
 ```
 
 ---
@@ -160,11 +190,12 @@ Nstp3-RPG-project/
 | Сборщик | Vite 5 |
 | Язык | Vanilla JS (ES Modules), без фреймворков |
 | Стили | CSS Custom Properties, 3 темы |
-| Данные | localStorage |
+| Данные | IndexedDB (миграция с localStorage) |
 | Графики | Chart.js |
 | Хостинг | GitHub Pages |
-| Android | WebView APK (Android Studio / Kotlin) |
+| Android | WebView APK (Android Studio / Kotlin), офлайн |
 
 ---
 
 *Прокачивай себя как персонажа* ⚔️
+
