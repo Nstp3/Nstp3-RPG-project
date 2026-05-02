@@ -53,6 +53,30 @@
   <main id="app" class="container"></main>
   <div id="toast" class="toast hidden"></div>
 
+  <!-- Нижняя навигация — только на мобиле -->
+  <nav class="bottom-nav" id="bottomNav">
+    <button class="bnav-btn bnav-btn--active" data-tab="hero">
+      <span class="bnav-icon">👤</span>
+      <span class="bnav-label">Герой</span>
+    </button>
+    <button class="bnav-btn" data-tab="tasks">
+      <span class="bnav-icon">✅</span>
+      <span class="bnav-label">Задачи</span>
+    </button>
+    <button class="bnav-btn" data-tab="skills">
+      <span class="bnav-icon">⚔️</span>
+      <span class="bnav-label">Навыки</span>
+    </button>
+    <button class="bnav-btn" data-tab="habits">
+      <span class="bnav-icon">🔥</span>
+      <span class="bnav-label">Привычки</span>
+    </button>
+    <button class="bnav-btn" data-tab="pomodoro">
+      <span class="bnav-icon">⏱</span>
+      <span class="bnav-label">Помодоро</span>
+    </button>
+  </nav>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script type="module" src="src/main.js"></script>
 </body>

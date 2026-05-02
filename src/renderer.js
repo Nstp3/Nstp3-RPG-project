@@ -1,6 +1,4 @@
-// ============================================================
-// renderer.js — оркестратор рендеринга (3 вкладки)
-// ============================================================
+// renderer.js — оркестратор рендеринга
 
 import { state } from './state.js';
 import { getTheme, THEMES } from './themes.js';
@@ -17,12 +15,18 @@ import { renderTaskHistory, bindTaskHistory }   from './components/TaskHistory.j
 import { renderCalendar, bindCalendar }         from './components/Calendar.js';
 import { t } from './i18n/translations.js';
 
-let currentTab = 'home';
-let tabsInitialized = false; // ← флаг: вешаем обработчики на вкладки только ОДИН РАЗ
+let currentTab     = 'home';   // десктоп-вкладка
+let currentMobTab  = 'hero';   // мобильная вкладка
+let tabsInitialized    = false;
+let mobTabsInitialized = false;
 
 window.__renderer__ = { update };
 
-// Инициализация вкладок — вызывается единожды
+function isMobile() {
+  return window.innerWidth <= 600;
+}
+
+// ── Десктоп-вкладки ───────────────────────────────────────
 function initTabs() {
   if (tabsInitialized) return;
   tabsInitialized = true;
@@ -34,37 +38,97 @@ function initTabs() {
   });
 }
 
-// Обновление активного состояния вкладок — без добавления новых listener-ов
 function updateTabState() {
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.classList.toggle('tab-btn--active', btn.dataset.tab === currentTab);
   });
-  // Обновляем i18n-тексты внутри кнопок
   document.querySelectorAll('.tab-btn [data-i18n]').forEach(el => {
     el.textContent = t(el.dataset.i18n);
   });
 }
 
-export function render() {
-  const app = document.getElementById('app');
-  if (!app) return;
+// ── Мобильные вкладки ─────────────────────────────────────
+function initMobTabs() {
+  if (mobTabsInitialized) return;
+  mobTabsInitialized = true;
+  document.querySelectorAll('.bnav-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentMobTab = btn.dataset.tab;
+      render();
+    });
+  });
+}
 
-  // Topbar: язык, кнопки, логотип
-  const btnLang   = document.getElementById('btnLang');
-  const btnExport = document.getElementById('btnExport');
-  const btnImport = document.getElementById('btnImport');
-  const logoImg   = document.getElementById('logoImg');
-  if (btnLang)   btnLang.textContent   = t('lang');
-  if (btnExport) btnExport.textContent = t('export');
-  if (btnImport) btnImport.textContent = t('import');
-  const theme = getTheme();
-  if (logoImg && theme.logo) logoImg.src = theme.logo;
+function updateMobTabState() {
+  document.querySelectorAll('.bnav-btn').forEach(btn => {
+    btn.classList.toggle('bnav-btn--active', btn.dataset.tab === currentMobTab);
+  });
+}
 
-  // Вкладки: один раз байндим, всегда обновляем стиль
+// ── Рендер контента для мобилы ────────────────────────────
+function renderMobile(app) {
+  initMobTabs();
+  updateMobTabState();
+
+  switch (currentMobTab) {
+
+    case 'hero':
+      app.innerHTML = `
+        <div class="col">
+          ${renderProfile()}
+          ${renderStats()}
+          ${renderRadarCard()}
+        </div>`;
+      bindProfile(); bindStats(); bindSkills();
+      renderRadarChart();
+      break;
+
+    case 'tasks':
+      app.innerHTML = `
+        <div class="col">
+          ${renderTasks()}
+          ${renderActivityCard()}
+        </div>`;
+      bindTasks();
+      renderLineChart();
+      break;
+
+    case 'skills':
+      app.innerHTML = `
+        <div class="col">
+          ${renderSkillsList()}
+          ${renderCalendar()}
+        </div>`;
+      bindSkills(); bindCalendar();
+      break;
+
+    case 'habits':
+      app.innerHTML = `
+        <div class="col">
+          ${renderHabits()}
+        </div>`;
+      bindHabits();
+      break;
+
+    case 'pomodoro':
+      app.innerHTML = `
+        <div class="col">
+          ${renderPomodoro()}
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            ${renderLocalPlayer()}
+            ${renderMovies()}
+          </div>
+        </div>`;
+      bindPomodoro(); bindLocalPlayer(); bindMovies();
+      break;
+  }
+}
+
+// ── Рендер контента для десктопа ─────────────────────────
+function renderDesktop(app) {
   initTabs();
   updateTabState();
 
-  // Контент по вкладке
   if (currentTab === 'home') {
     app.innerHTML = `
       <div class="col col--left">
@@ -78,8 +142,7 @@ export function render() {
         ${renderSkillsList()}
         ${renderHabits()}
         ${renderActivityCard()}
-      </div>
-    `;
+      </div>`;
     bindProfile(); bindStats(); bindTasks(); bindSkills(); bindPomodoro(); bindHabits();
     renderRadarChart(); renderLineChart();
 
@@ -90,8 +153,7 @@ export function render() {
       </div>
       <div class="col col--mid">
         ${renderTaskHistory()}
-      </div>
-    `;
+      </div>`;
     bindTaskHistory(); bindCalendar();
 
   } else if (currentTab === 'relax') {
@@ -102,12 +164,41 @@ export function render() {
           ${renderSoundCloudPlayer()}
         </div>
         ${renderMovies()}
-      </div>
-    `;
+      </div>`;
     bindLocalPlayer(); bindSoundCloudPlayer(); bindMovies();
   }
 }
 
-export function update() {
-  render();
+// ── Главный render ────────────────────────────────────────
+export function render() {
+  const app = document.getElementById('app');
+  if (!app) return;
+
+  // Topbar
+  const btnLang   = document.getElementById('btnLang');
+  const btnExport = document.getElementById('btnExport');
+  const btnImport = document.getElementById('btnImport');
+  const logoImg   = document.getElementById('logoImg');
+  if (btnLang)   btnLang.textContent   = t('lang');
+  if (btnExport) btnExport.textContent = t('export');
+  if (btnImport) btnImport.textContent = t('import');
+  const theme = getTheme();
+  if (logoImg && theme.logo) logoImg.src = theme.logo;
+
+  if (window.__updateDropdownIcons) window.__updateDropdownIcons();
+
+  if (isMobile()) {
+    renderMobile(app);
+  } else {
+    renderDesktop(app);
+  }
 }
+
+export function update() { render(); }
+
+// Перерисовать при изменении размера окна (поворот телефона и т.д.)
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => render(), 150);
+});

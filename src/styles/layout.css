@@ -225,3 +225,115 @@ body::after {
   body::before, body::after,
   .topbar::before, .topbar::after { display: none; }
 }
+
+/* ============================================================
+   Мобильная нижняя навигация
+   ============================================================ */
+
+.bottom-nav {
+  display: none;
+}
+
+@media (max-width: 600px) {
+
+  /* Прячем верхние вкладки */
+  .tab-nav { display: none; }
+
+  /* Топбар — только лого + кнопки */
+  .topbar-inner {
+    grid-template-columns: auto 1fr;
+    height: 48px;
+    padding: 0 10px;
+    gap: 8px;
+  }
+  .logo { justify-self: start; }
+  .topbar-right { justify-self: end; }
+
+  /* Скрываем Экспорт/Импорт на мобиле — экономим место */
+  #btnExport, #btnImport { display: none; }
+
+  /* Основной контент — одна колонка, отступ снизу под nav */
+  .container {
+    grid-template-columns: 1fr;
+    padding: 10px 10px 80px;
+    gap: 10px;
+  }
+
+  /* Показываем нижний навбар */
+  .bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    background: var(--bg2);
+    border-top: 1px solid var(--border2);
+    padding: 6px 0 max(8px, env(safe-area-inset-bottom));
+  }
+
+  .bnav-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px 2px;
+    -webkit-tap-highlight-color: transparent;
+    transition: opacity 0.15s;
+  }
+
+  .bnav-btn:active { opacity: 0.6; }
+
+  .bnav-icon {
+    font-size: 18px;
+    line-height: 1;
+    display: block;
+    transition: transform 0.15s;
+  }
+
+  .bnav-label {
+    font-size: 9px;
+    font-family: var(--font-mono);
+    color: var(--text3);
+    letter-spacing: 0.3px;
+    transition: color 0.15s;
+  }
+
+  .bnav-btn--active .bnav-icon {
+    transform: translateY(-2px);
+  }
+
+  .bnav-btn--active .bnav-label {
+    color: var(--green);
+    font-weight: 700;
+  }
+
+  /* Активная метка под иконкой */
+  .bnav-btn--active::after {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--green);
+    margin: 0 auto;
+    position: absolute;
+    bottom: max(10px, env(safe-area-inset-bottom));
+  }
+
+  .bnav-btn { position: relative; }
+
+  /* Темы — адаптация нижней nav */
+  [data-theme="ac"] .bottom-nav {
+    background: rgba(245, 238, 220, 0.97);
+    border-top-color: rgba(139,26,26,0.25);
+  }
+  [data-theme="mythic"] .bottom-nav {
+    background: rgba(10, 6, 25, 0.97);
+    border-top-color: rgba(124,58,237,0.35);
+  }
+}
