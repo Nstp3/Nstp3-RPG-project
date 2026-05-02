@@ -1,202 +1,189 @@
-# Nstp3-RPG — Ежедневник с элементами геймификации
+# Nstp3-RPG — Gamified Productivity Dashboard
 
 <div align="center">
   <table>
     <tr>
-      <td align="center"><img src="readme_assets/preview.png" width="100%" alt="Десктоп"><br><sub>Десктоп</sub></td>
-      <td align="center" width="32%"><img src="readme_assets/preview-mobile.jpg" width="100%" alt="Мобильная версия"><br><sub>Мобильная версия</sub></td>
+      <td align="center"><img src="readme_assets/preview.png" width="100%" alt="Desktop"><br><sub>Desktop</sub></td>
+      <td align="center" width="32%"><img src="readme_assets/preview-mobile.jpg" width="100%" alt="Mobile"><br><sub>Mobile</sub></td>
     </tr>
   </table>
+
+  <strong>🇬🇧 English</strong> &nbsp;·&nbsp; <a href="README.ru.md">🇷🇺 Русский</a>
+
+  <br>
+
+  <a href="https://nstp3.github.io/">🌐 Live Demo</a> &nbsp;·&nbsp;
+  <a href="android_version/app-release.apk">⬇️ Android APK</a>
 </div>
 
-> 🌐 **Живая версия:** [nstp3.github.io](https://nstp3.github.io/)
+<br>
 
-Личный дашборд продуктивности в стиле RPG. Превращает повседневные задачи, привычки и навыки в игровую прокачку персонажа. Работает прямо в браузере — без установки, без сервера, без регистрации.
+A personal RPG-style productivity dashboard. Turn your daily tasks, habits and skills into character progression. Runs entirely in the browser — no install, no server, no account needed.
 
 ---
 
-## 🖥️ Возможности
+## ✨ Features
 
-- **Герой** — профиль с аватаром, уровнем и опытом (XP / Daily XP)
-- **Статы** — Здоровье, Настроение, Выносливость, Мотивация с прогресс-барами
-- **Задачи** — добавление по категориям, выполнение даёт XP
-- **Навыки** — прокачка по 6 направлениям с визуализацией прогресса
-- **Радар** — паутинка, отражающая текущий баланс навыков
-- **Привычки** — трекер по дням месяца с drag-выделением диапазона и подписью каждого дня
-- **Помодоро** — таймер с настройкой рабочего / перерывного времени
-- **Активность** — график активности по дням
-- **3 темы** — Стандартная · Assassin's Creed · Solo Leveling
-- **Экспорт / Импорт** — бэкап прогресса в JSON
-- **Мультиязычность** — RU / EN
+- **Hero profile** — avatar, level and XP / Daily XP tracking
+- **Stats** — Health, Mood, Stamina, Motivation with progress bars
+- **Tasks** — add by category, completing tasks earns XP
+- **Skills** — level up 6 skill tracks with visual progress bars
+- **Radar chart** — spider chart showing your current skill balance
+- **Habits** — monthly day tracker with drag-to-select range and day labels
+- **Pomodoro** — focus timer with configurable work / break duration
+- **Activity** — daily activity line chart
+- **3 themes** — Default · Assassin's Creed · Solo Leveling
+- **Export / Import** — JSON backup of all your progress
+- **Bilingual** — RU / EN
 
 ---
 
 ## 📱 Android APK
 
-Доступна нативная Android-версия. Работает **офлайн** — все файлы встроены в приложение.
+A native Android WebView wrapper is available. Works **offline** — all files are bundled inside the app.
 
-### Скачать APK
+### Download
 
-[**⬇️ Скачать app-release.apk**](android_version/app-release.apk)
+[**⬇️ Download app-release.apk**](android_version/app-release.apk)
 
-### Установка
+### Install
 
-1. Скачай файл `app-release.apk` по ссылке выше
-2. Открой файл на телефоне
-3. Если появится предупреждение → **Настройки → Безопасность → Разрешить установку из неизвестных источников**
-4. Нажми **Установить**
-5. Иконка **Nstp3 RPG** появится на рабочем столе
+1. Download `app-release.apk`
+2. Open the file on your phone
+3. If prompted → **Settings → Security → Allow installs from unknown sources**
+4. Tap **Install**
+5. The **Nstp3 RPG** icon will appear on your home screen
 
-> ⚠️ APK собран вручную и не проходил проверку Google Play — это нормально для личного использования.
+> ⚠️ This APK is self-signed and not published on Google Play — that's fine for personal use.
 
 ---
 
-## 📱 Как открыть на телефоне (без APK)
+## 📱 Add to Home Screen (without APK)
 
-Сайт уже в интернете — просто открой ссылку и добавь на рабочий стол.
+The site is already live — just open the link and add it to your home screen.
 
 ### Android — Brave / Chrome
 
-1. Открой [nstp3.github.io](https://nstp3.github.io/) в **Brave** или **Chrome**
-2. Нажми **⋮** (три точки) в правом верхнем углу
-3. Выбери **«Добавить на главный экран»** или **«Установить приложение»**
-4. Подтверди — иконка появится на рабочем столе
+1. Open [nstp3.github.io](https://nstp3.github.io/) in **Brave** or **Chrome**
+2. Tap **⋮** (three dots) in the top-right corner
+3. Select **"Add to Home Screen"** or **"Install app"**
+4. Confirm — the icon will appear on your home screen
 
 ### iPhone — Safari
 
-1. Открой [nstp3.github.io](https://nstp3.github.io/) в **Safari**
-2. Нажми кнопку **«Поделиться»** (квадрат со стрелкой вверх)
-3. Выбери **«На экран "Домой"»**
-4. Подтверди — иконка появится на рабочем столе
+1. Open [nstp3.github.io](https://nstp3.github.io/) in **Safari**
+2. Tap the **Share** button (box with arrow)
+3. Select **"Add to Home Screen"**
+4. Confirm — the icon will appear on your home screen
 
 ---
 
-## 💾 Бэкап данных
+## 💾 Data Backup
 
-Все данные хранятся в **IndexedDB** браузера на твоём устройстве (лимит ~500 MB, данные не теряются при обновлении страницы).
+All data is stored in **IndexedDB** in your browser (~500 MB limit).
 
-- **Экспорт** — кнопка «Экспорт» в топ-баре → сохранит файл `life-rpg-backup.json`
-- **Импорт** — кнопка «Импорт» → выбери сохранённый файл
+- **Export** — click "Export" in the top bar → saves `life-rpg-backup.json`
+- **Import** — click "Import" → pick your saved file
 
-> ⚠️ При полной очистке данных браузера / переустановке приложения данные сотрутся. Делай экспорт регулярно.
-
-Если пользуешься с нескольких устройств — экспортируй на одном, импортируй на другом.
+> ⚠️ Clearing browser data will erase your progress. Export regularly.
 
 ---
 
-## 🎨 Темы оформления
+## 🎨 Themes
 
-Переключение — кнопка с иконкой в правом верхнем углу топ-бара, выпадающий список.
+Switch themes via the icon button in the top-right corner (dropdown).
 
-| | Тема | Стиль |
+| | Theme | Style |
 |---|------|-------|
-| <img src="readme_assets/theme-dark.png" width="22" height="22"> | Стандартная | Тёмно-синяя, цвета `#2e4369` · `#455bb2` · `#cdd3fd` |
-| <img src="readme_assets/theme-ac.png" width="22" height="22"> | Assassin's Creed | Пергамент, тёплые коричневые тона |
-| <img src="readme_assets/theme-mythic.png" width="22" height="22"> | Solo Leveling | Тёмно-фиолетовая, неоновые акценты |
+| <img src="readme_assets/theme-dark.png" width="22" height="22"> | Default | Dark blue — `#2e4369` · `#455bb2` · `#cdd3fd` |
+| <img src="readme_assets/theme-ac.png" width="22" height="22"> | Assassin's Creed | Parchment, warm brown tones |
+| <img src="readme_assets/theme-mythic.png" width="22" height="22"> | Solo Leveling | Dark purple with neon accents |
 
 ---
 
-## 🚀 Локальный запуск (для разработки)
+## 🚀 Local Development
 
-### Требования
-- [Node.js](https://nodejs.org/) версии 18+
-
-### Команды
+### Requirements
+- [Node.js](https://nodejs.org/) 18+
 
 ```bash
-# Перейди в папку проекта
 cd nstp3-rpg
-
-# Установи зависимости
 npm install
-
-# Запусти локально
 npm run dev
 ```
 
-Откроется по адресу `http://localhost:5173`
+Opens at `http://localhost:5173`
 
-### Сборка и деплой на GitHub Pages
+### Build & Deploy to GitHub Pages
 
 ```bash
 npm run build
-# Готовые файлы появятся в папке dist/
+# Output in dist/
 ```
 
-### Тест локально с телефона (одна Wi-Fi сеть)
+### Test on mobile (same Wi-Fi)
 
 ```bash
 npm run dev -- --host
 ```
 
-В терминале появится Network-адрес вида `http://192.168.1.XX:5173` — вбей его в браузер телефона.
+Use the Network address shown in the terminal on your phone browser.
 
 ---
 
-## 🤖 Сборка Android APK
-
-### Быстрая пересборка (одна команда)
+## 🤖 Rebuild Android APK
 
 ```bash
-cd Изображения/проект\ и\ идеи\ для\ проекта/nstp3-rpg && \
+cd nstp3-rpg && \
 BUILD_TARGET=android npm run build && \
 rm -r ~/AndroidStudioProjects/Nstp3RPG/app/src/main/assets/* && \
 cp -r dist-android/* ~/AndroidStudioProjects/Nstp3RPG/app/src/main/assets && \
-echo "✓ Готово — собирай APK в Android Studio"
+echo "✓ Done — build APK in Android Studio"
 ```
 
-### Затем в Android Studio
-
-**Build → Generate Signed App Bundle / APK → APK → Next**
-Выбери `nstp3key.jks` → пароль → Build Variant: **release** → **Finish**
-
-Готовый файл: `~/AndroidStudioProjects/Nstp3RPG/app/release/app-release.apk`
+Then in Android Studio: **Build → Generate Signed APK → release → Finish**
 
 ---
 
-## 📁 Структура проекта
+## 📁 Project Structure
 
 ```
 nstp3-rpg/
 ├── android_version/
-│   └── app-release.apk       # Android APK (офлайн)
-├── readme_assets/            # Иконки тем для README
-│   ├── theme-dark.png
-│   ├── theme-ac.png
-│   └── theme-mythic.png
-├── preview.png               # Превью для README
+│   └── app-release.apk       # Android APK (offline)
+├── readme_assets/            # Theme icons for README
 ├── index.html
 ├── package.json
 ├── vite.config.js
-├── assets/                   # Фоновые изображения и иконки
+├── assets/                   # Background images & icons
 └── src/
-    ├── main.js               # Инициализация, темы, события
-    ├── renderer.js           # Рендер (десктоп + мобиль)
-    ├── state.js              # Стейт приложения
-    ├── db.js                 # IndexedDB обёртка
-    ├── themes.js             # Конфигурация тем
-    ├── icons.js              # Иконки в base64
-    ├── xp.js                 # Логика опыта и уровней
-    ├── components/           # Компоненты (Stats, Tasks, Habits…)
+    ├── main.js               # Init, themes, events
+    ├── renderer.js           # Render engine (desktop + mobile)
+    ├── state.js              # App state
+    ├── db.js                 # IndexedDB wrapper
+    ├── themes.js             # Theme config
+    ├── icons.js              # Icons as base64
+    ├── xp.js                 # XP & level logic
+    ├── components/           # UI components
     ├── styles/               # CSS (base, components, layout)
-    ├── ui/                   # Утилиты (toast, progressBar…)
-    └── i18n/                 # Переводы RU / EN
+    ├── ui/                   # Utilities (toast, progressBar…)
+    └── i18n/                 # RU / EN translations
 ```
 
 ---
 
-## 🛠️ Стек
+## 🛠️ Stack
 
 | | |
 |---|---|
-| Сборщик | Vite 5 |
-| Язык | Vanilla JS (ES Modules), без фреймворков |
-| Стили | CSS Custom Properties, 3 темы |
-| Данные | IndexedDB (миграция с localStorage) |
-| Графики | Chart.js |
-| Хостинг | GitHub Pages |
-| Android | WebView APK (Android Studio / Kotlin), офлайн |
+| Bundler | Vite 5 |
+| Language | Vanilla JS (ES Modules), no frameworks |
+| Styles | CSS Custom Properties, 3 themes |
+| Storage | IndexedDB |
+| Charts | Chart.js |
+| Hosting | GitHub Pages |
+| Android | WebView APK (Android Studio / Kotlin), offline |
 
 ---
 
-*Прокачивай себя как персонажа* ⚔️
+*Level up your real life* ⚔️
