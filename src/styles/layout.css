@@ -9,6 +9,8 @@
   position: sticky;
   top: 0;
   z-index: 100;
+  /* Отступ под вырез камеры (notch / dynamic island) */
+  padding-top: env(safe-area-inset-top);
 }
 
 /* Внутренняя зона топбара — ограничена шириной дашборда */
@@ -252,7 +254,10 @@ body::after {
   /* Основной контент — одна колонка, отступ снизу под nav */
   .container {
     grid-template-columns: 1fr;
-    padding: 10px 10px 80px;
+    padding: 10px 10px;
+    padding-bottom: calc(70px + env(safe-area-inset-bottom));
+    padding-left: max(10px, env(safe-area-inset-left));
+    padding-right: max(10px, env(safe-area-inset-right));
     gap: 10px;
   }
 
@@ -266,7 +271,9 @@ body::after {
     z-index: 200;
     background: var(--bg2);
     border-top: 1px solid var(--border2);
-    padding: 6px 0 max(8px, env(safe-area-inset-bottom));
+    padding: 6px 0;
+    /* Отступ под системную панель навигации */
+    padding-bottom: max(6px, env(safe-area-inset-bottom));
   }
 
   .bnav-btn {

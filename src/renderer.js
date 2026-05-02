@@ -196,9 +196,14 @@ export function render() {
 
 export function update() { render(); }
 
-// Перерисовать при изменении размера окна (поворот телефона и т.д.)
+// Перерисовать только при изменении ШИРИНЫ (поворот экрана)
+// Изменение высоты = открытие клавиатуры — НЕ перерисовываем
+let lastWidth = window.innerWidth;
 let resizeTimer;
 window.addEventListener('resize', () => {
+  const newWidth = window.innerWidth;
+  if (newWidth === lastWidth) return; // клавиатура — игнорируем
+  lastWidth = newWidth;
   clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(() => render(), 150);
+  resizeTimer = setTimeout(() => render(), 200);
 });
